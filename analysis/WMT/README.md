@@ -1,18 +1,23 @@
-# Walmart Inc. — Competitive Analysis
+# Walmart Inc. (WMT) — Competitive Analysis, Comps & DCF Valuation
 
-Investment-decision-oriented competitive analysis for Walmart (NYSE: WMT),
-produced using the `competitive-analysis` and `comps-analysis` skills in this
-repo at `plugins/vertical-plugins/financial-analysis/skills/`.
+Full 7-skill institutional workup for Walmart (NYSE: WMT). Same shape as
+`analysis/AVGO/`: `deep-research` · `competitive-analysis` · `comps-analysis` ·
+`3-statement-model` · `dcf-model` · `audit-xls` · `ib-check-deck`.
 
-Mirrors the methodology and shape of `analysis/MP/`.
+**Headline finding:** base-case DCF **$69.64/share** vs **$95.50** market = **−27%**.
+Even on a comp-based read (~$85–92), $95.50 sits modestly above fair value.
+Net: WMT has re-rated significantly on the Walmart Connect / marketplace / membership
+margin-mix narrative; the margin of safety is gone at today's price.
 
 ## Files
 
 | File | Built by | What it is |
 |---|---|---|
-| **`WMT-Competitive-Analysis.pptx`** | `build_deck.py` | 18-slide deck: thesis → market → industry → peer deep dives → comparative scoreboard → moats → bull/base/bear → catalysts → decision frame |
+| **`WMT-Competitive-Analysis.pptx`** | `build_deck.py` | 20-slide deck: thesis → market → industry → peer deep dives → comparative scoreboard → moats → bull/base/bear → catalysts → decision frame → **valuation football field** → **DCF + sensitivity** → sources |
+| **`WMT-Model.xlsx`** | `build_model.py` | Integrated **3-statement model + DCF**: Drivers · IS · BS · CF · DCF (5×5 WACC×g sensitivity) · Notes. 259 live formulas, validated 0 errors. WACC 7.0%, terminal g 2.5%. |
 | **`WMT-Comps-Analysis.xlsx`** | `build_comps.py` | 5-tab peer comp workbook: Inputs · Operating Metrics · Valuation · Retail-Specific (comp sales, e-com mix, ads, membership) · Notes |
-| **`WMT-Competitive-Analysis.html`** | `build_html_view.py` | Tablet-friendly single-file HTML view of the same 18 sections (charts embedded as base64) |
+| **`WMT-Competitive-Analysis.html`** | `build_html_view.py` | Tablet-friendly single-file HTML view of the 18 narrative sections (charts embedded as base64). Does not yet include the 2 valuation slides — see PPTX for those. |
+| `verify_model.py` | — | Independent Python recomputation of the model (cross-check). |
 | `build_deck.py` / `build_comps.py` / `build_html_view.py` | — | Reproducible build scripts. Edit the `INPUTS` dict / slide content and re-run to refresh. |
 | `charts/` | matplotlib | Intermediate PNGs embedded in the PPTX and HTML (peer comp-sales bars, 2×2 positioning matrix). |
 

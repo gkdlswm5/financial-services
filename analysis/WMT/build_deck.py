@@ -654,7 +654,62 @@ for title, body, col in options:
 slide_footer(s, "This deck is research and decision framing — not investment advice. Cross-check valuation against a primary terminal (CapIQ / FactSet / Bloomberg) before acting.")
 
 # ============================================================
-# SLIDE 18 — SOURCES & CAVEATS
+# SLIDE 18 — VALUATION: COMPS FOOTBALL FIELD (added in 7-skill upgrade)
+# ============================================================
+s = prs.slides.add_slide(BLANK)
+slide_title(s, "Valuation I — comps and DCF both suggest WMT is at/above fair value at ~$95.50")
+add_text(s, Inches(0.5), Inches(1.4), Inches(12.3), Inches(0.4),
+         "Methods (illustrative ranges; companion files: WMT-Model.xlsx, WMT-Comps-Analysis.xlsx)", size=12, italic=True, color=CHARCOAL)
+add_table(s, Inches(0.5), Inches(2.0), Inches(12.3), Inches(3.6), [
+    ["Method", "Implied $/share range", "vs $95.50"],
+    ["DCF — base (WACC 7.0% / g 2.5%)", "~$70", "−27%"],
+    ["DCF — full sensitivity grid", "$48 – $127", "$95.50 sits in upper third"],
+    ["DCF — bull (WACC 6.0% / g 3.5%)", "~$127", "+33% (best corner)"],
+    ["Comps — semis/retail median fwd P/E ~18x × FY27E EPS", "~$85", "−11%"],
+    ["Comps — EV/EBITDA peer median ~11x × FY26E EBITDA", "~$92", "−4%"],
+], col_widths=[Inches(5.6), Inches(3.5), Inches(3.2)], font_size=12)
+add_text(s, Inches(0.5), Inches(5.9), Inches(12.3), Inches(1.0),
+         ["• Even on a comp-based read (which is closer to mgmt's bull thesis), $95.50 sits modestly above fair value.",
+          "• DCF says it more emphatically: only the bull WACC/g corner ($127) clears the current price.",
+          "• Net: WMT has re-rated significantly on the Connect / marketplace narrative; the margin of safety is gone at today's price."],
+         size=12, color=CHARCOAL)
+slide_footer(s, "Source: WMT-Model.xlsx (validated, 0 formula errors); WMT-Comps-Analysis.xlsx. DCF computed via verify_model.py cross-check.")
+
+# ============================================================
+# SLIDE 19 — VALUATION: DCF + SENSITIVITY (added in 7-skill upgrade)
+# ============================================================
+s = prs.slides.add_slide(BLANK)
+slide_title(s, "Valuation II — base-case DCF $70/share; entire WACC × growth grid mostly below $95.50")
+add_table(s, Inches(0.5), Inches(1.4), Inches(5.6), Inches(4.4), [
+    ["DCF bridge (base)", "$M / $"],
+    ["PV of explicit FCF (FY27-31)", "103,749"],
+    ["PV of terminal value", "505,840"],
+    ["Enterprise value", "609,589"],
+    ["(–) Net debt", "(49,000)"],
+    ["Equity value", "560,589"],
+    ["÷ Diluted shares (M)", "8,050"],
+    ["Implied value / share", "$69.64"],
+    ["Current price", "$95.50"],
+    ["Upside / (downside)", "(27.1%)"],
+], col_widths=[Inches(3.4), Inches(2.2)], font_size=12)
+add_text(s, Inches(6.4), Inches(1.4), Inches(6.4), Inches(0.4), "Sensitivity — implied $/share (WACC × terminal g)", size=12, bold=True, color=NAVY)
+add_table(s, Inches(6.4), Inches(1.85), Inches(6.5), Inches(3.0), [
+    ["WACC ↓ / g →", "1.5%", "2.0%", "2.5%", "3.0%", "3.5%"],
+    ["6.0%", "73", "81", "92", "107", "127"],
+    ["6.5%", "65", "71", "80", "90", "105"],
+    ["7.0% (base)", "58", "63", "70", "78", "89"],
+    ["7.5%", "52", "57", "62", "69", "77"],
+    ["8.0%", "48", "51", "56", "61", "67"],
+], col_widths=[Inches(1.7), Inches(0.95), Inches(0.95), Inches(0.95), Inches(0.95), Inches(0.95)], font_size=10.5)
+add_text(s, Inches(6.4), Inches(5.0), Inches(6.5), Inches(1.9),
+         ["• Center cell ($70) = base case. Terminal value is ~83% of EV — very WACC/g-sensitive (mature retail).",
+          "• Only the bull corner (6.0% / 3.5%) at $127 exceeds the $95.50 market price.",
+          "• Implication: WMT's narrative re-rating (Connect ads, marketplace, membership) is largely priced in."],
+         size=11, color=CHARCOAL)
+slide_footer(s, "Source: WMT-Model.xlsx (validated, 0 formula errors). Lower WACC (7%) and terminal g (2.5%) than AVGO — defensive consumer-staple profile.")
+
+# ============================================================
+# SLIDE 20 — SOURCES & CAVEATS
 # ============================================================
 s = prs.slides.add_slide(BLANK)
 slide_title(s, "Sources, data gaps, and caveats")
