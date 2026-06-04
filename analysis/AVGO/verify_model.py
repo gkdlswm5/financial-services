@@ -6,7 +6,7 @@ remains the source of truth; this is a cross-check (LibreOffice headless recalc
 is unavailable in this sandbox).
 """
 YR = ["FY26", "FY27", "FY28", "FY29", "FY30"]
-ai   = [48000, 76000, 98000, 116000, 131000]
+ai   = [50000, 85000, 108000, 128000, 145000]
 nai  = [17500, 18500, 19500, 20500, 21500]
 sw   = [28000, 30000, 32000, 34000, 36000]
 opm  = [0.44, 0.47, 0.49, 0.50, 0.51]
@@ -27,7 +27,7 @@ ufcf = [n+d-c-w for n, d, c, w in zip(nopat, da, capex, dnwc)]
 
 # WACC
 rf, erp, beta, kd, t_w = 0.043, 0.050, 1.072, 0.050, 0.14
-price, sh, debt, cash = 460.00, 4730, 66057, 14200
+price, sh, debt, cash = 481.62, 4730, 65000, 16000
 coe = rf + beta*erp
 katd = kd*(1-t_w)
 mve = price*sh

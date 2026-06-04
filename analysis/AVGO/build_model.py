@@ -108,7 +108,7 @@ ws = wb.create_sheet("Drivers")
 ws.sheet_view.showGridLines = False
 ws["A1"] = "BROADCOM (AVGO) — INTEGRATED MODEL: DRIVERS & ASSUMPTIONS"
 ws.merge_cells("A1:J1"); ws["A1"].font = BOLDW; ws["A1"].fill = NAVY_FILL; ws["A1"].alignment = C
-ws["A2"] = "As of June 2026 | $ in millions unless noted | Blue = input/assumption (see cell comments), Black = formula"
+ws["A2"] = "As of June 3, 2026 (post-Q2 FY26 print) | $ in millions unless noted | Blue = input/assumption (see cell comments), Black = formula"
 ws.merge_cells("A2:J2"); ws["A2"].font = ITAL; ws["A2"].alignment = C
 
 # --- Segment revenue inputs (historical hard, projected = driver) ---
@@ -143,13 +143,15 @@ for col in ("C", "D", "E"):
     put_input(ws, f"{col}{r_nonai}", nonai_hist[col][0], nonai_hist[col][1])
     put_input(ws, f"{col}{r_sw}", sw_hist[col][0], sw_hist[col][1])
 
-# Projected segment revenue (driver inputs) — base case
+# Projected segment revenue (driver inputs) — base case (REVISED post-Q2 FY26 print, June 3 2026)
+# Q1 FY26 actual AI $8.4B + Q2 FY26 actual AI $10.8B = H1 AI $19.2B; Q3 total guided $29.4B (+84%)
+# Mgmt REITERATED but did NOT raise FY27 AI "$100B+" guide — base-case haircut now ~15% (was ~24%)
 ai_proj = {
-    "F": (48000, "[E] BASE FY2026 AI ~$48B: Q1 $8.4B + Q2 guide $10.7B + H2 ramp; ties to ~$94B consensus total"),
-    "G": (76000, "[E] BASE FY2027 AI ~$76B: HAIRCUT ~24% vs mgmt 'line of sight to $100B+ AI in 2027' for execution / OpenAI-financing risk"),
-    "H": (98000, "[E] BASE FY2028 AI ~$98B (+29%): continued XPU + AI networking ramp across 6 committed customers"),
-    "I": (116000, "[E] BASE FY2029 AI ~$116B (+18%): maturing hyperscaler programs, slowing growth"),
-    "J": (131000, "[E] BASE FY2030 AI ~$131B (+13%): late-cycle AI accelerator demand"),
+    "F": (50000, "[E] BASE FY2026 AI ~$50B: H1 actual $19.2B + Q3 guide implies ~$13B AI + Q4 continued ramp; mgmt reiterated FY26 AI guidance"),
+    "G": (85000, "[E] BASE FY2027 AI ~$85B: 15% haircut vs mgmt 'line of sight to $100B+ in FY27' (reiterated post-Q2). Q2 momentum reduces but does not eliminate execution / OpenAI-financing risk"),
+    "H": (108000, "[E] BASE FY2028 AI ~$108B (+27%): continued XPU + AI networking ramp across 6 committed customers"),
+    "I": (128000, "[E] BASE FY2029 AI ~$128B (+19%): maturing hyperscaler programs"),
+    "J": (145000, "[E] BASE FY2030 AI ~$145B (+13%): late-cycle AI accelerator demand"),
 }
 nonai_proj = {
     "F": (17500, "[E] FY2026 non-AI semi ~$17.5B: modest cyclical recovery (Apple Wi-Fi insourcing a headwind)"),
@@ -227,10 +229,10 @@ for col in YR_COLS:
 # --- Market data & WACC inputs ---
 hdr(ws, 21, 1, 4, "MARKET DATA & WACC INPUTS")
 md = [
-    ("Current share price ($)", 460.00, "AVGO ~$460/sh (close ~$459.97, June 1, 2026)", USD2),
-    ("Diluted shares (M)", 4730, "~4.73B diluted shares (StockAnalysis, Q1 FY26)", NUM),
-    ("Total debt ($M)", 66057, "Total debt ~$66.1B at Feb 1, 2026 (Q1 FY26 8-K balance sheet)", NUM),
-    ("Cash & equivalents ($M)", 14200, "Cash ~$14.2B at Feb 1, 2026 (Q1 FY26 8-K)", NUM),
+    ("Current share price ($)", 481.62, "AVGO ~$481.62/sh post-Q2 FY26 print (+4.7% on $22.2B rev, AI +143%, Q3 guide $29.4B)", USD2),
+    ("Diluted shares (M)", 4730, "~4.73B diluted shares (StockAnalysis, Q2 FY26)", NUM),
+    ("Total debt ($M)", 65000, "[E] Total debt ~$65B at May 3, 2026 (Q2 FY26 8-K; continuing paydown from ~$66.1B in Q1)", NUM),
+    ("Cash & equivalents ($M)", 16000, "[E] Cash ~$16B at May 3, 2026 (Q2 FY26 — strong FCF $10.3B added)", NUM),
     ("Risk-free rate %", 0.043, "[E] 10-yr UST ~4.3% (June 2026)", PCT),
     ("Equity risk premium %", 0.050, "[E] US equity risk premium ~5.0% (Damodaran-style)", PCT),
     ("Beta", 1.072, "[E] AVGO beta ~1.07 (5-yr, levered); calibrated so computed WACC = 9.50% (sensitivity-table center)", NUM1),

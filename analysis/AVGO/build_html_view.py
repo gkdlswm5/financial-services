@@ -65,12 +65,12 @@ HTML = f"""<!doctype html>
 
 <section id="s2" class="card p-5">
   <div class="slide-num">02 &middot; Thesis</div>
-  <h2 class="slide-title">Best-in-class AI franchise — but at ~$460 the stock already prices the bull AI ramp</h2>
+  <h2 class="slide-title">Q2 print confirms the franchise — but at ~$482, even after the move, the price still embeds bull AI</h2>
   <div class="mt-4 space-y-4 text-sm">
-    <div><span class="pill pill-navy">1. The franchise</span><p class="mt-2">#1 custom AI-silicon design house (~70% share) + leading AI networking (Tomahawk/Jericho). Q1 FY26: revenue $19.3B (+29%), AI revenue $8.4B (+106%), adj. EBITDA 68%. $73B AI backlog; 6 committed hyperscaler customers.</p></div>
-    <div><span class="pill pill-red">2. The FCF engine</span><p class="mt-2">VMware made Infrastructure Software a ~$27B/yr, ~78%-operating-margin annuity. FCF ~$28.9B TTM (~42% margin). Debt down to ~$66B from a ~$74B post-VMware peak; dividend +10%.</p></div>
-    <div><span class="pill pill-warn">3. The valuation problem</span><p class="mt-2">Base-case DCF — haircutting mgmt's "$100B+ AI in 2027" ~24% for execution / OpenAI-financing risk — is ~$246/share. The ENTIRE WACC×g grid ($185–$289) sits below the ~$460 price.</p></div>
-    <div><span class="pill pill-good">4. The read</span><p class="mt-2">To justify $460 you need mgmt's full AI guidance delivered AND a low discount rate (bull corner ≈ $470–520). High-quality compounder, but no margin of safety here. Own on pullbacks / pair vs MRVL; trim into strength.</p></div>
+    <div><span class="pill pill-navy">1. The franchise</span><p class="mt-2">#1 custom AI-silicon design house (~70% share) + leading AI networking. Q2 FY26: revenue $22.2B (+48%), AI revenue $10.8B (+143%), adj. EBITDA $15.2B (69%), FCF $10.3B (46%). Q3 guide $29.4B (+84%). $73B AI backlog; 6 hyperscaler customers.</p></div>
+    <div><span class="pill pill-red">2. The FCF engine</span><p class="mt-2">VMware made Infrastructure Software a ~$27B/yr, ~78%-operating-margin annuity. Consolidated TTM FCF ~$33B+ (~44% margin) post Q2's $10.3B. Net debt down to ~$49B from a ~$74B post-VMware peak; dividend +10%.</p></div>
+    <div><span class="pill pill-warn">3. The valuation problem</span><p class="mt-2">Hock Tan REITERATED — did NOT raise — the FY27 "AI $100B+" guide despite the Q2 beat. Base-case DCF (haircut ~15% to $85B FY27 AI) ~$264/share. ENTIRE WACC×g grid ($200–$311) below the ~$482 price; bull corner ~$395.</p></div>
+    <div><span class="pill pill-good">4. The read</span><p class="mt-2">Q2 beat closed some of the gap (stock +4.7% on the print) — but the structural finding holds: to justify $482 you still need full mgmt FY27 AI delivered AND a low discount rate. Long on pullbacks / pair vs MRVL; trim into strength.</p></div>
   </div>
   <div class="source">AVGO Q1 FY26 IR; AVGO-Model.xlsx (DCF); The Information (May 2026, OpenAI financing). Research, not investment advice.</div>
 </section>
@@ -79,12 +79,12 @@ HTML = f"""<!doctype html>
   <div class="slide-num">03 &middot; The question</div>
   <h2 class="slide-title">The question this analysis answers</h2>
   <blockquote class="mt-4 pl-4 border-l-4 border-[var(--red)] text-base italic" style="color:var(--navy);">
-    "Broadcom is one of the highest-quality AI franchises in the market — but at ~$460 (~31x forward earnings, ~$2.2T), how much of the AI bull case is already in the price, and what has to be true to justify owning it here?"</blockquote>
+    "Broadcom Q2 FY26 (June 3) printed +48% revenue, AI +143%, with Q3 guided +84% — but the stock is at ~$482 (~$2.3T, ~29x fwd). How much of the AI bull case is already in the price post-print, and what has to be true to justify owning it here?"</blockquote>
   <ol class="mt-4 space-y-1 pl-5 list-decimal text-sm">
     <li><b>Market</b> — is the hyperscaler AI-capex cycle still supportive?</li>
     <li><b>Competitive</b> — how durable is AVGO's custom-ASIC + networking position vs NVDA, AMD, MRVL?</li>
     <li><b>Financial (comps)</b> — how does AVGO screen vs the semis cohort + ORCL anchor?</li>
-    <li><b>Intrinsic (DCF)</b> — what is AVGO worth on a base case, and what does $460 imply?</li>
+    <li><b>Intrinsic (DCF)</b> — what is AVGO worth on a base case, and what does $482 imply?</li>
     <li><b>Decision</b> — bull/base/bear and the cleanest way to express a view.</li>
   </ol>
 </section>
@@ -132,12 +132,12 @@ HTML = f"""<!doctype html>
   <h2 class="slide-title">AI inflection with a fortress FCF profile and a de-levering balance sheet</h2>
   <div class="l2 mt-4">
     <table><thead><tr><th>Metric</th><th class="num">Value</th></tr></thead><tbody>
-      <tr><td>Q1 FY26 revenue</td><td class="num">$19.3B (+29%)</td></tr>
+      <tr><td>Q2 FY26 revenue</td><td class="num">$22.2B (+48%)</td></tr>
       <tr><td>Q1 FY26 AI revenue</td><td class="num">$8.4B (+106%)</td></tr>
       <tr><td>Q2 FY26 guide (total / AI)</td><td class="num">$22.0B / $10.7B</td></tr>
       <tr><td>FY26 revenue consensus [E]</td><td class="num">~$94.7B</td></tr>
       <tr><td>Adj. EBITDA margin</td><td class="num">68%</td></tr>
-      <tr><td>TTM FCF [E]</td><td class="num">~$28.9B (~42%)</td></tr>
+      <tr><td>TTM FCF [E]</td><td class="num">~$33B+ (~42%)</td></tr>
       <tr><td>Net debt [E]</td><td class="num">~$51.9B</td></tr>
       <tr><td>Market cap / EV [E]</td><td class="num">~$2.18T / ~$2.23T</td></tr>
       <tr><td>P/E TTM / fwd</td><td class="num">~80x / ~31x</td></tr>
@@ -175,7 +175,7 @@ HTML = f"""<!doctype html>
     <tr><td>AI networking</td><td>Tomahawk 6 / Ultra + Jericho4 — open Ethernet vs NVIDIA NVLink/InfiniBand</td></tr>
     <tr><td>IP &amp; SerDes</td><td>200G+ SerDes, analog/optical (CPO) portfolio</td></tr>
     <tr><td>VMware annuity</td><td>~$27B/yr, ~78% op margin, recurring; funds capital return</td></tr>
-    <tr><td>Capital discipline</td><td>Hock Tan playbook: acquire → raise margins → de-lever → grow dividend; ~$28.9B TTM FCF</td></tr>
+    <tr><td>Capital discipline</td><td>Hock Tan playbook: acquire → raise margins → de-lever → grow dividend; ~$33B+ TTM FCF</td></tr>
   </tbody></table>
   <div class="source">Broadcom IR & earnings; CNBC (Anthropic, Dec 2025); product releases. Some customer details reported/rumored.</div>
 </section>
@@ -288,42 +288,43 @@ HTML = f"""<!doctype html>
 
 <section id="s16" class="card p-5">
   <div class="slide-num">16 &middot; Valuation — football field</div>
-  <h2 class="slide-title">Every method puts fair value at or below the $460 market price</h2>
+  <h2 class="slide-title">Every method puts fair value at or below the $482 market price</h2>
   <img src="data:image/png;base64,{fb}" class="mt-4 rounded-lg border border-[var(--border)] w-full"/>
   <ul class="dot mt-3 text-sm">
-    <li>DCF base ($246) and the full WACC×g grid ($185–289) sit well below $460.</li>
+    <li>DCF base ($264) and the full WACC×g grid ($200–311) sit well below $482.</li>
     <li>Comps (semis-median EV/EBITDA & fwd P/E) imply ~$300–480 — AVGO already trades at/above the cohort.</li>
-    <li>Only the DCF bull case (mgmt FY27 AI delivered) reaches the $460 zone.</li>
-    <li><b>Conclusion:</b> at $460 the market prices the bull case as the base case.</li>
+    <li>Only the DCF bull case (mgmt FY27 AI fully delivered) reaches the $482 zone.</li>
+    <li><b>Conclusion:</b> even after Q2 +48% & Q3 guide +84%, the market still prices the bull case as the base case.</li>
   </ul>
   <div class="source">Combines DCF (AVGO-Model.xlsx) and comps (AVGO-Comps-Analysis.xlsx). Ranges illustrative of method spread.</div>
 </section>
 
 <section id="s17" class="card p-5">
   <div class="slide-num">17 &middot; Valuation — DCF + sensitivity</div>
-  <h2 class="slide-title">Base-case DCF $246/share; the entire WACC × growth grid is below $460</h2>
+  <h2 class="slide-title">Base-case DCF $264/share; the entire WACC × growth grid is below $482</h2>
   <div class="l2 mt-4">
     <table><thead><tr><th>DCF bridge (base)</th><th class="num">$M / $</th></tr></thead><tbody>
       <tr><td>PV of explicit FCF (FY26–30)</td><td class="num">253,310</td></tr>
-      <tr><td>PV of terminal value</td><td class="num">961,358</td></tr>
-      <tr><td>Enterprise value</td><td class="num">1,214,669</td></tr>
-      <tr><td>(–) Net debt</td><td class="num">(51,857)</td></tr>
+      <tr><td>PV of explicit FCF (FY26–30)</td><td class="num">269,084</td></tr>
+      <tr><td>PV of terminal value</td><td class="num">1,030,519</td></tr>
+      <tr><td>Enterprise value</td><td class="num">1,299,603</td></tr>
+      <tr><td>(–) Net debt</td><td class="num">(49,000)</td></tr>
       <tr><td>Equity value</td><td class="num">1,162,812</td></tr>
       <tr><td>÷ Diluted shares (M)</td><td class="num">4,730</td></tr>
-      <tr><td><b>Implied value / share</b></td><td class="num"><b>$245.84</b></td></tr>
-      <tr><td>Current price</td><td class="num">$460.00</td></tr>
-      <tr><td>Upside / (downside)</td><td class="num" style="color:var(--bad);">(46.6%)</td></tr>
+      <tr><td><b>Implied value / share</b></td><td class="num"><b>$264.40</b></td></tr>
+      <tr><td>Current price</td><td class="num">$481.62</td></tr>
+      <tr><td>Upside / (downside)</td><td class="num" style="color:var(--bad);">(45.1%)</td></tr>
     </tbody></table>
     <div class="mt-4 lg:mt-0">
       <div class="font-semibold text-sm" style="color:var(--navy);">Sensitivity — implied $/share (WACC × terminal g)</div>
       <table class="mt-2"><thead><tr><th>WACC↓ / g→</th><th class="num">2.5%</th><th class="num">3.0%</th><th class="num">3.5%</th><th class="num">4.0%</th><th class="num">4.5%</th></tr></thead><tbody>
-        <tr><td>8.5%</td><td class="num">255</td><td class="num">275</td><td class="num">300</td><td class="num">329</td><td class="num">367</td></tr>
-        <tr><td>9.0%</td><td class="num">234</td><td class="num">250</td><td class="num">270</td><td class="num">294</td><td class="num">323</td></tr>
-        <tr><td><b>9.5% (base)</b></td><td class="num">215</td><td class="num">229</td><td class="num" style="background:#BDD7EE;font-weight:700;">246</td><td class="num">265</td><td class="num">289</td></tr>
-        <tr><td>10.0%</td><td class="num">199</td><td class="num">211</td><td class="num">225</td><td class="num">242</td><td class="num">261</td></tr>
-        <tr><td>10.5%</td><td class="num">185</td><td class="num">196</td><td class="num">208</td><td class="num">221</td><td class="num">237</td></tr>
+        <tr><td>8.5%</td><td class="num">275</td><td class="num">296</td><td class="num">323</td><td class="num">355</td><td class="num">395</td></tr>
+        <tr><td>9.0%</td><td class="num">252</td><td class="num">270</td><td class="num">291</td><td class="num">317</td><td class="num">348</td></tr>
+        <tr><td><b>9.5% (base)</b></td><td class="num">232</td><td class="num">247</td><td class="num" style="background:#BDD7EE;font-weight:700;">265</td><td class="num">286</td><td class="num">311</td></tr>
+        <tr><td>10.0%</td><td class="num">215</td><td class="num">228</td><td class="num">243</td><td class="num">260</td><td class="num">281</td></tr>
+        <tr><td>10.5%</td><td class="num">200</td><td class="num">211</td><td class="num">224</td><td class="num">239</td><td class="num">256</td></tr>
       </tbody></table>
-      <ul class="dot mt-2 text-sm"><li>Terminal value ~79% of EV — very sensitive to WACC/g.</li><li>Even the best corner (8.5%/4.5%) = $367 on base FCF; reaching $460 needs FCF above base (mgmt FY27 AI delivered).</li></ul>
+      <ul class="dot mt-2 text-sm"><li>Terminal value ~79% of EV — very sensitive to WACC/g.</li><li>Even the best corner (8.5%/4.5%) = $395 on base FCF; reaching $482 needs FCF above base (mgmt FY27 AI delivered).</li></ul>
     </div>
   </div>
   <div class="source">AVGO-Model.xlsx (validated, 0 formula errors). Base haircuts mgmt FY27 AI guidance ~24% for execution / OpenAI-financing risk.</div>
@@ -342,7 +343,7 @@ HTML = f"""<!doctype html>
   </tbody></table></div>
   <div class="mt-3 text-sm">
     <p><b>Durable advantages:</b> ~70% custom-ASIC design share with multi-gen lock-in; leading open-Ethernet AI networking; ~$27B/yr ~78%-margin VMware annuity funding capital return.</p>
-    <p class="mt-1"><b>Vulnerabilities:</b> AI revenue concentrated in a few hyperscaler programs (OpenAI financing snag live); Google multi-sourcing dilutes content; valuation leaves no margin of safety — $460 already prices the bull ramp.</p>
+    <p class="mt-1"><b>Vulnerabilities:</b> AI revenue concentrated in a few hyperscaler programs (OpenAI financing snag live); Google multi-sourcing dilutes content; valuation leaves no margin of safety — $482 already prices the bull ramp.</p>
   </div>
 </section>
 
@@ -350,9 +351,9 @@ HTML = f"""<!doctype html>
   <div class="slide-num">19 &middot; Bull / base / bear</div>
   <h2 class="slide-title">Anchored to the DCF: the market price embeds the bull case</h2>
   <table class="mt-4"><thead><tr><th>Scenario</th><th class="num">Prob.</th><th>Key drivers</th><th>DCF value</th></tr></thead><tbody>
-    <tr><td><span class="pill pill-good">Bull</span></td><td class="num">30%</td><td>Mgmt $100B+ FY27 AI delivered & sustained; OpenAI funded; WACC ~8.5%, g ~4.5%</td><td>~$470–520 — justifies/exceeds $460</td></tr>
-    <tr><td><span class="pill pill-navy">Base</span></td><td class="num">45%</td><td>AI FY27 ~$76B (guidance haircut ~24%); software steady; WACC 9.5%, g 3.5%</td><td>~$246 — ~47% below price</td></tr>
-    <tr><td><span class="pill pill-bad">Bear</span></td><td class="num">25%</td><td>AI digestion 2027–28; OpenAI stalls; Google re-sourcing; WACC ~10.5%, g ~2.5%</td><td>~$185–210</td></tr>
+    <tr><td><span class="pill pill-good">Bull</span></td><td class="num">30%</td><td>Mgmt $100B+ FY27 AI delivered & sustained; OpenAI funded; WACC ~8.5%, g ~4.5%</td><td>~$480–540 — justifies/exceeds $482</td></tr>
+    <tr><td><span class="pill pill-navy">Base</span></td><td class="num">45%</td><td>AI FY27 ~$85B (guidance haircut ~15%, post-Q2); software steady; WACC 9.5%, g 3.5%</td><td>~$264 — ~45% below price</td></tr>
+    <tr><td><span class="pill pill-bad">Bear</span></td><td class="num">25%</td><td>AI digestion 2027–28; OpenAI stalls; Google re-sourcing; WACC ~10.5%, g ~2.5%</td><td>~$200–225</td></tr>
   </tbody></table>
   <div class="mt-3 text-sm"><div class="font-semibold" style="color:var(--navy);">Signposts</div>
   <ol class="mt-1 pl-5 list-decimal"><li>OpenAI $18B financing structure resolved or not</li><li>Q2/Q3 FY26 AI revenue vs the $10.7B→ramp guide</li><li>Hyperscaler 2027 capex guidance (acceleration vs digestion)</li><li>Any Google/Meta program re-sourcing</li></ol></div>
@@ -363,7 +364,7 @@ HTML = f"""<!doctype html>
   <div class="slide-num">20 &middot; Decision &amp; sources</div>
   <h2 class="slide-title">Decision frame &amp; sources</h2>
   <div class="mt-4 space-y-3 text-sm">
-    <div><span class="pill pill-navy">Own quality, wait for a pullback</span><p class="mt-1">No margin of safety at $460. Accumulate toward the base-case zone (high-$200s–low-$300s) or on AI-digestion scares.</p></div>
+    <div><span class="pill pill-navy">Own quality, wait for a pullback</span><p class="mt-1">No margin of safety at $482. Accumulate toward the base-case zone (high-$200s–low-$300s) or on AI-digestion scares.</p></div>
     <div><span class="pill pill-red">Pair: long AVGO / short a richer AI name</span><p class="mt-1">Express the quality view while hedging the AI-multiple on relative valuation.</p></div>
     <div><span class="pill pill-warn">Play the theme via MRVL</span><p class="mt-1">Same custom-ASIC thesis with more torque (and risk); smaller, re-rating name.</p></div>
     <div><span class="pill pill-bad">Trim / avoid here</span><p class="mt-1">If you expect 2027–28 AI digestion + OpenAI-financing risk, the price already discounts the bull case.</p></div>

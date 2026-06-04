@@ -50,14 +50,14 @@ PEERS = [
 # All $ in millions. Valuation date ~June 1, 2026.
 INPUTS = {
     "Broadcom": {
-        "mkt_cap": (2175800, "AVGO ~$460/sh x ~4.73B sh, June 1 2026 (~$2.18T)"),
-        "net_debt": (51857, "Net debt = $66.06B debt - $14.2B cash (Q1 FY26 8-K, Feb 1 2026)"),
-        "revenue": (68300, "[E] TTM revenue ~$68.3B (FY25 $63.9B + Q1 FY26 step-up)"),
-        "growth": (0.29, "Q1 FY26 revenue +29% YoY (Broadcom IR, Mar 2026)"),
-        "gm": (0.68, "[E] GAAP gross margin ~68% (non-GAAP ~77%); Q1 FY26"),
-        "ebitda": (40500, "[E] TTM GAAP EBITDA ~$40.5B (NI + interest + tax + D&A; adj. EBITDA ~$46B)"),
-        "ni": (25000, "[E] TTM GAAP net income ~$25.0B"),
-        "fwd_pe": (31.0, "Forward P/E ~31x (StockAnalysis, consensus FY26-27)"),
+        "mkt_cap": (2278000, "AVGO ~$481.62/sh post-Q2 FY26 (+4.7% on print) x ~4.73B sh = ~$2.28T (June 3, 2026)"),
+        "net_debt": (49000, "[E] Net debt ~$49B at May 3, 2026 (debt ~$65B - cash ~$16B; Q2 FCF $10.3B added)"),
+        "revenue": (75470, "TTM revenue $75.47B: Q3-Q4 FY25 ($15.95B+$18.02B) + Q1-Q2 FY26 ($19.3B+$22.2B)"),
+        "growth": (0.48, "Q2 FY26 revenue +48% YoY (Broadcom Q2 FY26 IR, June 3 2026); Q3 guide +84%"),
+        "gm": (0.68, "[E] GAAP gross margin ~68% (non-GAAP ~77%); Q2 FY26"),
+        "ebitda": (50500, "[E] TTM GAAP EBITDA ~$50.5B (adj EBITDA TTM ~$54B; Q2 adj EBITDA $15.2B / 69% margin)"),
+        "ni": (28000, "[E] TTM GAAP net income ~$28.0B (Q2 GAAP NI $9.3B; non-GAAP $12.1B)"),
+        "fwd_pe": (29.0, "[E] Forward P/E ~29x post-Q2 (consensus FY26-27 EPS upward revision absorbing the +48%)"),
     },
     "NVIDIA": {
         "mkt_cap": (5460000, "NVDA ~$225.6/sh, June 2 2026 (~$5.46T) (companiesmarketcap)"),
@@ -173,7 +173,7 @@ ws["A1"] = "AI SEMICONDUCTORS & INFRASTRUCTURE SOFTWARE — COMPARABLE COMPANY A
 ws.merge_cells("A1:K1"); ws["A1"].font = BOLDW; ws["A1"].fill = NAVY_FILL; ws["A1"].alignment = C
 ws["A2"] = " • ".join(f"{n} ({t})" for n, t, _ in PEERS)
 ws.merge_cells("A2:K2"); ws["A2"].font = BOLDB; ws["A2"].alignment = C
-ws["A3"] = "As of ~June 1, 2026 | $ in millions except ratios | Stats computed over the 5 semis peers (NVDA, AMD, MRVL, QCOM, TXN); AVGO = target, ORCL = software anchor (memo)"
+ws["A3"] = "As of June 3, 2026 (post-AVGO Q2 FY26 print) | $ in millions except ratios | Stats over 5 semis peers (NVDA, AMD, MRVL, QCOM, TXN); AVGO=target, ORCL=software anchor (memo)"
 ws.merge_cells("A3:K3"); ws["A3"].font = ITAL; ws["A3"].alignment = C
 
 section(ws, 5, 1, 11, "RAW INPUTS — cell comments cite source / assumption")

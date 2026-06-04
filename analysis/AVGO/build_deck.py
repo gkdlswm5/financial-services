@@ -94,10 +94,10 @@ def chart_football():
     fig, ax = plt.subplots(figsize=(9.2, 4.6), dpi=150)
     # methods: (label, low, high)
     rows = [
-        ("DCF — base (WACC/g grid $185-289)", 185, 289),
-        ("DCF — bull (mgmt FY27 delivered)", 360, 520),
-        ("Comps — EV/EBITDA (semis median)", 300, 470),
-        ("Comps — forward P/E (semis median)", 330, 480),
+        ("DCF — base (WACC/g grid $200-311)", 200, 311),
+        ("DCF — bull (mgmt FY27 AI fully delivered)", 380, 540),
+        ("Comps — EV/EBITDA (semis median)", 320, 490),
+        ("Comps — forward P/E (semis median)", 350, 500),
     ]
     ypos = range(len(rows))
     for y, (lab, lo, hi) in zip(ypos, rows):
@@ -105,10 +105,10 @@ def chart_football():
         ax.text(lo-6, y, f"${lo:.0f}", va="center", ha="right", fontsize=9)
         ax.text(hi+6, y, f"${hi:.0f}", va="center", ha="left", fontsize=9)
     ax.set_yticks(list(ypos)); ax.set_yticklabels([r[0] for r in rows], fontsize=9.5)
-    ax.axvline(460, color="#CC0000", linewidth=2)
-    ax.text(460, len(rows)-0.3, "  Current $460", color="#CC0000", fontsize=10, fontweight="bold")
-    ax.axvline(246, color="#2E7D32", linewidth=1.5, linestyle="--")
-    ax.text(246, -0.9, "DCF base $246", color="#2E7D32", fontsize=9, ha="center")
+    ax.axvline(481.62, color="#CC0000", linewidth=2)
+    ax.text(481.62, len(rows)-0.3, "  Current $482", color="#CC0000", fontsize=10, fontweight="bold")
+    ax.axvline(264, color="#2E7D32", linewidth=1.5, linestyle="--")
+    ax.text(264, -0.9, "DCF base $264", color="#2E7D32", fontsize=9, ha="center")
     ax.set_xlim(120, 600); ax.set_xlabel("Implied value per share ($)")
     ax.set_title("Valuation football field — market price sits at/above the bull case",
                  fontsize=12.5, color="#17365D", pad=10)
@@ -190,7 +190,7 @@ stripe.fill.solid(); stripe.fill.fore_color.rgb = RED_AC; stripe.line.fill.backg
 add_text(s, Inches(0.7), Inches(1.0), Inches(12), Inches(0.5), "NASDAQ: AVGO — Investment Decision Frame", size=18, italic=True, color=WHITE)
 add_text(s, Inches(0.7), Inches(1.7), Inches(12), Inches(1.4), "Broadcom Inc.", size=54, bold=True, color=WHITE)
 add_text(s, Inches(0.7), Inches(3.0), Inches(12), Inches(0.9), "Competitive Landscape, Comps & DCF Valuation", size=26, color=RED_AC)
-add_text(s, Inches(0.7), Inches(5.0), Inches(12), Inches(0.5), "As of June 2026", size=14, italic=True, color=CHARCOAL)
+add_text(s, Inches(0.7), Inches(5.0), Inches(12), Inches(0.5), "As of June 3, 2026 (post-Q2 FY26 print)", size=14, italic=True, color=CHARCOAL)
 add_text(s, Inches(0.7), Inches(5.5), Inches(12), Inches(1.6),
          ["Peer set: NVIDIA · AMD · Marvell · Qualcomm · Texas Instruments  +  Oracle (software anchor)",
           "Built with deep-research + competitive-analysis + comps-analysis + 3-statement-model + dcf-model skills",
@@ -199,27 +199,27 @@ add_text(s, Inches(0.7), Inches(5.5), Inches(12), Inches(1.6),
 
 # ============ SLIDE 2 — THESIS ============
 s = prs.slides.add_slide(BLANK)
-slide_title(s, "Best-in-class AI franchise — but at ~$460 the stock already prices the bull AI ramp")
+slide_title(s, "Q2 print confirms the franchise — but at ~$482, even after the move, the price still embeds bull AI")
 bullets = [
-    ("1. The franchise", "AVGO is the #1 custom AI-silicon (XPU/ASIC) design house (~70% share) plus the leading AI networking franchise (Tomahawk/Jericho). Q1 FY26: revenue $19.3B (+29%), AI revenue $8.4B (+106%), adj. EBITDA 68%. $73B AI backlog; 6 committed hyperscaler customers."),
-    ("2. The FCF engine", "VMware turned Infrastructure Software into a $6.8B/quarter, ~78%-operating-margin annuity. Consolidated FCF ~$28.9B TTM (~42% margin). Debt down to ~$66B from a ~$74B post-VMware peak; dividend raised ~10%."),
-    ("3. The valuation problem", "Our base-case DCF — which HAIRCUTS mgmt's '$100B+ AI in 2027' guidance ~24% for execution / OpenAI-financing risk — yields ~$246/share. The ENTIRE WACC×g sensitivity grid ($185–$289) sits below the ~$460 market price."),
-    ("4. The read", "To justify $460 you need mgmt's full AI guidance delivered AND a low discount rate (the bull corner ≈ $470–520). High-quality compounder, but the margin of safety is gone at today's price. Long on pullbacks / pair vs MRVL; trim into strength."),
+    ("1. The franchise", "AVGO is the #1 custom AI-silicon (XPU/ASIC) design house (~70% share) + leading AI networking (Tomahawk/Jericho). Q2 FY26: revenue $22.2B (+48%), AI revenue $10.8B (+143%), adj. EBITDA $15.2B (69%), FCF $10.3B (46% margin). Q3 guide $29.4B (+84%). $73B AI backlog; 6 committed hyperscaler customers."),
+    ("2. The FCF engine", "VMware turned Infrastructure Software into a ~$27B/yr, ~78%-operating-margin annuity. Consolidated TTM FCF ~$33B+ (~44% margin) after Q2's $10.3B print. Net debt down to ~$49B from a ~$74B post-VMware peak; dividend $0.65/qtr (+10%)."),
+    ("3. The valuation problem", "Hock Tan REITERATED — did NOT raise — the FY27 'AI $100B+' guide despite the Q2 beat. Our base-case DCF (now haircut ~15% to $85B FY27 AI) yields ~$264/share. The ENTIRE WACC×g grid ($200–$311) sits below the ~$482 market price; bull corner ~$395."),
+    ("4. The read", "The Q2 beat closed some of the gap (stock +4.7% on the print) — but the structural finding holds: to justify $482 you still need the full mgmt FY27 AI delivered AND a low discount rate. High-quality compounder; no margin of safety. Long on pullbacks; pair vs MRVL; trim into strength."),
 ]
 y = Inches(1.35)
 for h, b in bullets:
     add_text(s, Inches(0.6), y, Inches(2.4), Inches(1.2), h, size=14, bold=True, color=NAVY)
     add_text(s, Inches(3.1), y, Inches(9.6), Inches(1.2), b, size=11.5, color=CHARCOAL)
     y += Inches(1.36)
-slide_footer(s, "Sources: AVGO Q1 FY26 IR (Mar 2026); AVGO-Model.xlsx (base-case DCF); The Information (May 2026, OpenAI financing). Research, not investment advice.")
+slide_footer(s, "Sources: AVGO Q2 FY26 IR (June 3, 2026); AVGO-Model.xlsx (base-case DCF); The Information (May 2026, OpenAI financing). Research, not investment advice.")
 
 # ============ SLIDE 3 — THE QUESTION ============
 s = prs.slides.add_slide(BLANK)
 slide_title(s, "The question this analysis answers")
 add_text(s, Inches(0.7), Inches(1.8), Inches(12), Inches(1.2),
-         '"Broadcom is one of the highest-quality AI franchises in the market — but at ~$460 (~31x forward earnings, ~$2.2T), '
-         'how much of the AI bull case is already in the price, and what has to be true to justify owning it here?"',
-         size=21, italic=True, color=NAVY)
+         '"Broadcom Q2 FY26 (June 3) printed +48% revenue, AI +143%, with Q3 guided +84% — but the stock is at ~$482 (~$2.3T, ~29x fwd). '
+         'How much of the AI bull case is already in the price post-print, and what has to be true to justify owning it here?"',
+         size=20, italic=True, color=NAVY)
 add_text(s, Inches(0.7), Inches(3.7), Inches(12), Inches(0.4), "We test that across five lenses:", size=14, bold=True, color=CHARCOAL)
 for i, ln in enumerate([
     "(1) Market — is the hyperscaler AI-capex cycle still supportive?",
@@ -280,17 +280,17 @@ s = prs.slides.add_slide(BLANK)
 slide_title(s, "Broadcom profile — AI inflection with a fortress FCF profile and de-levering balance sheet")
 add_table(s, Inches(0.5), Inches(1.35), Inches(6.2), Inches(5.4), [
     ["Metric", "Value"],
-    ["Q1 FY26 revenue", "$19.3B (+29% YoY)"],
-    ["Q1 FY26 AI revenue", "$8.4B (+106% YoY)"],
-    ["Q2 FY26 guide (total / AI)", "$22.0B / $10.7B"],
-    ["FY26 revenue consensus [E]", "~$94.7B"],
-    ["Adj. EBITDA margin", "68%"],
-    ["TTM free cash flow [E]", "~$28.9B (~42% margin)"],
-    ["Total debt / cash", "$66.1B / $14.2B"],
-    ["Net debt [E]", "~$51.9B"],
-    ["Market cap / EV [E]", "~$2.18T / ~$2.23T"],
-    ["P/E TTM / forward", "~80x / ~31x"],
-    ["Dividend (FY26)", "$0.65/qtr (~0.55% yield, +10%)"],
+    ["Q1 FY26 revenue / Q2 actual", "$19.3B (+29%) / $22.2B (+48%)"],
+    ["Q1+Q2 FY26 AI revenue", "$8.4B + $10.8B = $19.2B (+143% Q2 YoY)"],
+    ["Q3 FY26 guide (total)", "$29.4B (+84%) — beat consensus $28.5B"],
+    ["FY26 revenue consensus [E]", "~$103-105B (raised post-Q2)"],
+    ["Q2 adj. EBITDA / margin", "$15.2B / 69%"],
+    ["TTM free cash flow [E]", "~$33B+ (~44% margin); Q2 alone $10.3B"],
+    ["Total debt / cash [E]", "~$65B / ~$16B"],
+    ["Net debt [E]", "~$49B"],
+    ["Market cap / EV [E]", "~$2.28T / ~$2.33T"],
+    ["P/E TTM / forward [E]", "~75x / ~29x"],
+    ["Dividend (FY26)", "$0.65/qtr (~0.54% yield, +10%)"],
 ], col_widths=[Inches(3.3), Inches(2.9)], font_size=11)
 s.shapes.add_picture(str(AI_PNG), Inches(6.95), Inches(1.5), width=Inches(6.0))
 add_text(s, Inches(6.95), Inches(5.6), Inches(6.0), Inches(1.4),
@@ -481,44 +481,44 @@ slide_title(s, "Valuation I — every method puts fair value at or below the $46
 s.shapes.add_picture(str(FB_PNG), Inches(0.5), Inches(1.35), width=Inches(8.4))
 add_text(s, Inches(9.1), Inches(1.4), Inches(4.0), Inches(0.5), "How to read it", size=13, bold=True, color=NAVY)
 add_text(s, Inches(9.1), Inches(1.95), Inches(4.0), Inches(5.0),
-         ["• DCF base ($246) and the full WACC×g grid ($185–289) sit well below $460.",
+         ["• DCF base ($264) and the full WACC×g grid ($200–311) sit well below $482.",
           "",
-          "• Comps (semis-median EV/EBITDA and fwd P/E applied to AVGO) imply ~$300–480 — AVGO already trades at/above the cohort.",
+          "• Comps (semis-median EV/EBITDA and fwd P/E applied to AVGO) imply ~$320–500 — AVGO trades at/above the cohort post-Q2.",
           "",
-          "• Only the DCF BULL case (mgmt's FY27 AI delivered) reaches into the $460 zone.",
+          "• Only the DCF BULL case (mgmt's FY27 AI fully delivered) reaches the $482 zone.",
           "",
-          "• Conclusion: at $460 the market prices the bull case as the base case."],
+          "• Conclusion: even after Q2 +48% & Q3 guide +84%, the market still prices the bull case as the base case."],
          size=11, color=CHARCOAL)
 slide_footer(s, "Football field combines DCF (AVGO-Model.xlsx) and comps (AVGO-Comps-Analysis.xlsx). Ranges are illustrative of method spread.")
 
 # ============ SLIDE 17 — VALUATION: DCF + SENSITIVITY ============
 s = prs.slides.add_slide(BLANK)
-slide_title(s, "Valuation II — base-case DCF $246/share; the entire WACC × growth grid is below $460")
+slide_title(s, "Valuation II — base-case DCF $264/share; the entire WACC × growth grid is below $482")
 add_table(s, Inches(0.5), Inches(1.4), Inches(5.6), Inches(4.4), [
-    ["DCF bridge (base)", "$M / $"],
-    ["PV of explicit FCF (FY26–30)", "253,310"],
-    ["PV of terminal value", "961,358"],
-    ["Enterprise value", "1,214,669"],
-    ["(–) Net debt", "(51,857)"],
-    ["Equity value", "1,162,812"],
+    ["DCF bridge (base, post-Q2 refresh)", "$M / $"],
+    ["PV of explicit FCF (FY26–30)", "269,084"],
+    ["PV of terminal value", "1,030,519"],
+    ["Enterprise value", "1,299,603"],
+    ["(–) Net debt", "(49,000)"],
+    ["Equity value", "1,250,603"],
     ["÷ Diluted shares (M)", "4,730"],
-    ["Implied value / share", "$245.84"],
-    ["Current price", "$460.00"],
-    ["Upside / (downside)", "(46.6%)"],
+    ["Implied value / share", "$264.40"],
+    ["Current price", "$481.62"],
+    ["Upside / (downside)", "(45.1%)"],
 ], col_widths=[Inches(3.4), Inches(2.2)], font_size=11)
 add_text(s, Inches(6.4), Inches(1.4), Inches(6.4), Inches(0.4), "Sensitivity — implied $/share (WACC × terminal g)", size=12, bold=True, color=NAVY)
 add_table(s, Inches(6.4), Inches(1.85), Inches(6.5), Inches(3.0), [
     ["WACC ↓ / g →", "2.5%", "3.0%", "3.5%", "4.0%", "4.5%"],
-    ["8.5%", "255", "275", "300", "329", "367"],
-    ["9.0%", "234", "250", "270", "294", "323"],
-    ["9.5% (base)", "215", "229", "246", "265", "289"],
-    ["10.0%", "199", "211", "225", "242", "261"],
-    ["10.5%", "185", "196", "208", "221", "237"],
+    ["8.5%", "275", "296", "323", "355", "395"],
+    ["9.0%", "252", "270", "291", "317", "348"],
+    ["9.5% (base)", "232", "247", "265", "286", "311"],
+    ["10.0%", "215", "228", "243", "260", "281"],
+    ["10.5%", "200", "211", "224", "239", "256"],
 ], col_widths=[Inches(1.7), Inches(0.95), Inches(0.95), Inches(0.95), Inches(0.95), Inches(0.95)], font_size=10.5)
 add_text(s, Inches(6.4), Inches(5.0), Inches(6.5), Inches(1.9),
-         ["• Center cell ($246) = base case. Terminal value is ~79% of EV — valuation is very sensitive to WACC/g.",
-          "• Even the most generous corner (WACC 8.5% / g 4.5%) = $367 on base FCF.",
-          "• To reach $460 you ALSO need FCF above base — i.e., mgmt's full $100B+ FY27 AI delivered (the bull case)."],
+         ["• Center cell ($265) = base case. Terminal value is ~79% of EV — valuation is very sensitive to WACC/g.",
+          "• Even the most generous corner (WACC 8.5% / g 4.5%) = $395 on base FCF.",
+          "• To reach $482 you ALSO need FCF above base — i.e., mgmt's full $100B+ FY27 AI delivered (the bull case)."],
          size=11, color=CHARCOAL)
 slide_footer(s, "Source: AVGO-Model.xlsx (validated, 0 formula errors). Base case haircuts mgmt FY27 AI guidance ~24% for execution / OpenAI-financing risk.")
 
@@ -548,7 +548,7 @@ add_table(s, Inches(0.5), Inches(1.4), Inches(12.3), Inches(3.8), [
     ["Bull", "30%", "Mgmt's $100B+ FY27 AI delivered & sustained; OpenAI deal funded; networking share gains; WACC ~8.5%, g ~4.5%",
      "~$470–520 — justifies (and exceeds) the $460 price; this is what the market currently embeds"],
     ["Base", "45%", "AI FY27 ~$76B (mgmt guidance haircut ~24%); software annuity steady; WACC 9.5%, g 3.5%",
-     "~$246 — high-quality compounder, but ~47% below the current price"],
+     "~$264 — high-quality compounder, but ~45% below the current price"],
     ["Bear", "25%", "AI digestion into 2027–28; OpenAI program stalls; Google multi-sourcing erodes content; WACC ~10.5%, g ~2.5%",
      "~$185–210 — multiple compresses as growth normalizes"],
 ], col_widths=[Inches(1.3), Inches(0.9), Inches(5.6), Inches(4.5)], font_size=11)
