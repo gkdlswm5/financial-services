@@ -102,12 +102,12 @@
     <div class="driver">
       <div class="ico">🕊️</div>
       <div class="body"><strong>US–Iran peace agreement <span class="tag bull">latest catalyst</span></strong>
-      <span>Counter-intuitively bullish: peace reopens the Strait of Hormuz and sent oil to a 2-month low, easing the inflation/rate-hike fears that had weighed on bullion. Gold up 3 straight sessions above $4,300.</span></div>
+      <span>Deal to be <em>signed in Switzerland June 19</em> — reopens the Strait of Hormuz, lifts blockades/sanctions, dismantles Tehran's nuclear program. Oil fell to a 2-month low, easing the inflation/rate-hike fears that had weighed on bullion. Gold up a 5th straight session.</span></div>
     </div>
     <div class="driver">
       <div class="ico">🏛️</div>
-      <div class="body"><strong>Fed meeting this week — new chair Warsh <span class="tag bull">bullish lean</span></strong>
-      <span>First FOMC under chair Kevin Warsh; widely expected to <em>hold</em>. With oil/inflation pressure fading, the hike case recedes — supportive for non-yielding gold.</span></div>
+      <div class="body"><strong>Fed/Warsh meeting today–tomorrow <span class="tag bull">bullish lean</span></strong>
+      <span>Chair Kevin Warsh's first FOMC: hold at <em>3.50–3.75% ~97% priced</em>. Dec 2026 hike odds just collapsed ~90% → ~60% in a session — a dovish repricing that's supportive for non-yielding gold.</span></div>
     </div>
     <div class="driver">
       <div class="ico">🏦</div>
@@ -130,12 +130,12 @@
     <section>
       <h2>Key macro prints</h2>
       <table>
-        <tr><td>US–Iran status</td><td class="up">Peace deal</td></tr>
-        <tr><td>FOMC this week (Warsh)</td><td>Hold (exp.)</td></tr>
+        <tr><td>US–Iran deal signing</td><td class="up">Jun 19 (CH)</td></tr>
+        <tr><td>Fed funds (Warsh, exp.)</td><td>3.50–3.75% hold</td></tr>
+        <tr><td>Dec'26 hike odds</td><td class="up">~90%→60%</td></tr>
         <tr><td>US CPI (May, YoY)</td><td class="down">4.2%</td></tr>
         <tr><td>US PPI (May, YoY)</td><td class="down">6.5%</td></tr>
         <tr><td>PBoC buying (April)</td><td class="up">8 t</td></tr>
-        <tr><td>China Q1 net imports</td><td class="up">317 t</td></tr>
         <tr><td>Avg gold miner AISC</td><td>~$1,700/oz</td></tr>
       </table>
     </section>
@@ -169,7 +169,7 @@ const DEMAND=[4300,4600], PROD=[1700,2000];           // editorial floor bands (
 const STOOQ=s=>`https://stooq.com/q/l/?s=${s}&f=sd2t2ohlcv&h&e=csv`;
 const PROXY=u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
 // last-known fallback if the network/CORS fails (snapshot: Jun 15, 2026)
-const FALLBACK={spot:{close:4338.90,open:4219.32},gld:{close:400.33,open:386.54}};
+const FALLBACK={spot:{close:4347.00,open:4219.32},gld:{close:400.33,open:386.54}};
 
 function fmtUSD(n,d=2){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
 function pct(now,open){return open?((now-open)/open*100):0;}
