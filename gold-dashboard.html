@@ -64,7 +64,7 @@
 <header>
   <div>
     <h1>Gold Dashboard<span class="dot">.</span></h1>
-    <span class="pill">XAU/USD &amp; GLD · live spot</span>
+    <span class="pill">Gold &amp; Silver · spot + GLD/SLV · live</span>
   </div>
   <div class="asof">
     <span id="live" class="live"><span class="led"></span><span id="live-text">Loading…</span></span>
@@ -85,14 +85,24 @@
     <div class="sub" id="gld-change">—</div>
   </div>
   <div class="card">
-    <div class="label">GLD backing</div>
-    <div class="big" id="ratio">—</div>
-    <div class="sub mut">oz of gold per share (live GLD÷spot)</div>
+    <div class="label">Silver spot (XAG/USD)</div>
+    <div class="big" style="color:#cfd6e4" id="silver-price">—</div>
+    <div class="sub" id="silver-change">—</div>
+  </div>
+  <div class="card">
+    <div class="label">SLV (iShares Silver Trust)</div>
+    <div class="big" style="color:#cfd6e4" id="slv-price">—</div>
+    <div class="sub" id="slv-change">—</div>
+  </div>
+  <div class="card">
+    <div class="label">Gold : Silver ratio</div>
+    <div class="big" id="gsr">—</div>
+    <div class="sub mut">oz of silver per oz of gold (live)</div>
   </div>
   <div class="card">
     <div class="label">Regime</div>
     <div class="big gold">Structural bull</div>
-    <div class="sub mut">Analyst targets up to $5,000–6,000</div>
+    <div class="sub mut">Hawkish-Fed headwind vs. sovereign bid</div>
   </div>
 </div>
 
@@ -152,7 +162,7 @@
 </div>
 
 <footer>
-  <strong>Live price data:</strong> <a href="https://stooq.com">Stooq</a> (XAUUSD, GLD.US) · auto-refreshes every 60s while open.<br>
+  <strong>Live price data:</strong> <a href="https://stooq.com">Stooq</a> (XAUUSD, GLD.US, XAGUSD, SLV.US) · auto-refreshes every 60s while open.<br>
   <strong>Editorial sources (wk of Jun 22):</strong>
   <a href="https://www.bloomberg.com/news/articles/2026-06-18/gold-set-for-weekly-loss-as-hawkish-fed-outweighs-peace-deal">Bloomberg</a> ·
   <a href="http://www.kitco.com/news/article/2026-06-22/gold-and-silver-face-medium-term-pressure-hawkish-fed-iran-us-deal-heraeus">Kitco / Heraeus</a> ·
@@ -168,8 +178,11 @@
 const DEMAND=[4300,4600], PROD=[1700,2000];           // editorial floor bands ($/oz)
 const STOOQ=s=>`https://stooq.com/q/l/?s=${s}&f=sd2t2ohlcv&h&e=csv`;
 const PROXY=u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
-// last-known fallback if the network/CORS fails (snapshot: Jun 15, 2026)
-const FALLBACK={spot:{close:4188.42,open:4160.26},gld:{close:386.50,open:384.00}};
+// last-known fallback if the network/CORS fails (snapshot: Jun 22, 2026)
+const FALLBACK={
+  spot:{close:4188.42,open:4160.26}, gld:{close:386.50,open:384.00},
+  silver:{close:65.00,open:66.35},   slv:{close:58.91,open:60.00}
+};
 
 function fmtUSD(n,d=2){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
 function pct(now,open){return open?((now-open)/open*100):0;}
@@ -195,13 +208,17 @@ function setStatus(state,text){
   document.getElementById('live-text').textContent=text;
 }
 
-function render(spot,gld,live){
+function render(spot,gld,silver,slv,live){
   const ratio=gld.close/spot.close;  // oz of gold per GLD share
   document.getElementById('spot-price').innerHTML=fmtUSD(spot.close)+'<span style="font-size:16px;color:var(--muted)">/oz</span>';
   document.getElementById('spot-change').innerHTML=chgHtml(spot.close,spot.open);
   document.getElementById('gld-price').textContent=fmtUSD(gld.close);
   document.getElementById('gld-change').innerHTML=chgHtml(gld.close,gld.open);
-  document.getElementById('ratio').textContent=ratio.toFixed(4)+' oz';
+  document.getElementById('silver-price').innerHTML=fmtUSD(silver.close)+'<span style="font-size:16px;color:var(--muted)">/oz</span>';
+  document.getElementById('silver-change').innerHTML=chgHtml(silver.close,silver.open);
+  document.getElementById('slv-price').textContent=fmtUSD(slv.close);
+  document.getElementById('slv-change').innerHTML=chgHtml(slv.close,slv.open);
+  document.getElementById('gsr').textContent=(spot.close/silver.close).toFixed(1)+' : 1';
   // floor bars in GLD-equivalent using live ratio
   document.getElementById('fl-spot').textContent=`${fmtUSD(spot.close,0)} · GLD ${fmtUSD(gld.close,0)}`;
   document.getElementById('fl-demand').textContent=`${fmtUSD(DEMAND[0],0)}–${DEMAND[1].toLocaleString()} · GLD ${fmtUSD(DEMAND[0]*ratio,0)}–${(DEMAND[1]*ratio).toFixed(0)}`;
@@ -219,11 +236,13 @@ function render(spot,gld,live){
 async function loadData(){
   setStatus('stale','Fetching…');
   try{
-    const [sx,gx]=await Promise.all([fetchCsv('xauusd'),fetchCsv('gld.us')]);
-    render(parseQuote(sx),parseQuote(gx),true);
+    const [sx,gx,ax,lx]=await Promise.all([
+      fetchCsv('xauusd'),fetchCsv('gld.us'),fetchCsv('xagusd'),fetchCsv('slv.us')
+    ]);
+    render(parseQuote(sx),parseQuote(gx),parseQuote(ax),parseQuote(lx),true);
   }catch(e){
     console.warn('live fetch failed:',e);
-    render(FALLBACK.spot,FALLBACK.gld,false);
+    render(FALLBACK.spot,FALLBACK.gld,FALLBACK.silver,FALLBACK.slv,false);
   }
 }
 
