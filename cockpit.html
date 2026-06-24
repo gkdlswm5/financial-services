@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Cockpit — Command Center</title>
+<style>
+  :root{--bg:#0d0f14;--panel:#161a23;--panel2:#1d222e;--line:#2a3140;--gold:#d4af37;--gold-bright:#ffd75e;--silver:#cfd6e4;--text:#e6e9ef;--muted:#8b93a4;--green:#3ecf8e;--red:#ff6b6b;--amber:#ffb454;--blue:#5b9dff;--purple:#b78cff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;padding:24px;max-width:1160px;margin:0 auto}
+  header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+  h1{font-size:25px;font-weight:700}h1 .dot{color:var(--gold)}
+  .sub-h{color:var(--muted);font-size:13px;margin-top:4px}
+  .live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600}.live .led{width:9px;height:9px;border-radius:50%;background:var(--muted)}.live.ok .led{background:var(--green)}.live.err .led{background:var(--red)}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin:0 0 12px;font-weight:600}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+  .ticks{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+  .tick{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .tick .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .tick .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .sum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}@media(max-width:780px){.sum{grid-template-columns:1fr}}
+  .sb{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .sb h3{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:0 0 6px}
+  .sb .big{font-size:17px;font-weight:700}
+  .sb p{font-size:12.5px;color:var(--muted);margin:4px 0 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  a.card{display:block;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;color:var(--text);transition:.15s;border-left:3px solid var(--line)}
+  a.card:hover{border-color:var(--gold);transform:translateY(-2px)}
+  a.card.pos{border-left-color:var(--gold)}a.card.opt{border-left-color:var(--blue)}a.card.tax{border-left-color:var(--green)}a.card.macro{border-left-color:var(--purple)}a.card.flow{border-left-color:var(--amber)}
+  a.card .t{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+  a.card .d{font-size:12.5px;color:var(--muted);margin-top:5px}
+  a.card .tag{font-size:10px;text-transform:uppercase;letter-spacing:.4px;padding:1px 7px;border-radius:20px;margin-left:auto;font-weight:700}
+  .tg-pos{background:rgba(212,175,55,.15);color:var(--gold-bright)}.tg-opt{background:rgba(91,157,255,.15);color:var(--blue)}.tg-tax{background:rgba(62,207,142,.15);color:var(--green)}.tg-macro{background:rgba(183,140,255,.15);color:var(--purple)}.tg-flow{background:rgba(255,180,84,.15);color:var(--amber)}
+  .bear{color:var(--red)}.bull{color:var(--green)}.gold{color:var(--gold-bright)}.mut{color:var(--muted)}
+  .note{font-size:12px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:8px}
+  .disc{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:10px;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Gold Cockpit<span class="dot">.</span> <span style="font-size:12px;color:var(--muted)">your command center</span></h1>
+  <div class="sub-h">As of June 24, 2026 · <span id="live" class="live"><span class="led"></span><span id="lt">loading…</span></span></div>
+</header>
+
+<!-- LIVE TICKS -->
+<section>
+  <h2>Live tape</h2>
+  <div class="ticks">
+    <div class="tick"><div class="l">Gold spot</div><div class="v gold" id="s-gold">—</div></div>
+    <div class="tick"><div class="l">GLD</div><div class="v gold" id="s-gld">—</div></div>
+    <div class="tick"><div class="l">Silver</div><div class="v" style="color:var(--silver)" id="s-slvr">—</div></div>
+    <div class="tick"><div class="l">SLV</div><div class="v" style="color:var(--silver)" id="s-slv">—</div></div>
+    <div class="tick"><div class="l">DXY</div><div class="v" id="s-dxy">—</div></div>
+    <div class="tick"><div class="l">WTI</div><div class="v" id="s-oil">—</div></div>
+  </div>
+</section>
+
+<!-- STATE SUMMARY -->
+<section>
+  <h2>Where things stand</h2>
+  <div class="sum">
+    <div class="sb"><h3>Regime</h3><div class="big bear">Bearish near-term</div><p>Hawkish Fed + surging dollar pressuring gold; central-bank demand is the structural floor. Flip when 2-yr rolls over / DXY &lt;100 / Dec-hike odds &lt;61%.</p></div>
+    <div class="sb"><h3>Your position</h3><div class="big" id="pnl">—</div><p id="pnl-d">1,100 GLD @ $450 basis · large SLV @ $75 · ~50%+ metals concentration.</p></div>
+    <div class="sb"><h3>The plan</h3><div class="big gold">Trim · harvest · wait</div><p>De-risk &amp; tax-harvest now (offset $100k gain), income/protect the core while bearish, flip to offense on the Fed pivot.</p></div>
+  </div>
+</section>
+
+<!-- TOOL GRID -->
+<section>
+  <h2>Tools</h2>
+  <div class="grid">
+    <a class="card pos" href="gold-dashboard.html"><div class="t">📊 Live Dashboard <span class="tag tg-pos">live</span></div><div class="d">Gold/GLD + silver/SLV, drivers, floor bands — auto-refreshing.</div></a>
+    <a class="card pos" href="gold-investor-outlook.html"><div class="t">🎯 Investor Outlook <span class="tag tg-pos">position</span></div><div class="d">Your GLD position: breakeven, scenarios/EV, analyst targets, decision framework.</div></a>
+    <a class="card flow" href="gld-strike-map.html"><div class="t">🗺️ Strike Map <span class="tag tg-flow">levels</span></div><div class="d">Support/resistance, targets, and credit-spread placement zones (GLD↔gold).</div></a>
+    <a class="card opt" href="cc-bear-call-spread.html"><div class="t">📈 CC + Bear-Call Spread <span class="tag tg-opt">options</span></div><div class="d">Payoff of shares + covered calls + a bear-call spread; where the cap bites.</div></a>
+    <a class="card opt" href="option-strategies.html"><div class="t">⚙️ 3 Option Strategies <span class="tag tg-opt">options</span></div><div class="d">Repair / covered call / collar payoffs for GLD &amp; SLV.</div></a>
+    <a class="card tax" href="harvest-vs-wait.html"><div class="t">🧾 Harvest vs. Wait <span class="tag tg-tax">tax</span></div><div class="d">After-tax math: why waiting for a bounce only shrinks the offset.</div></a>
+    <a class="card macro" href="gold-macro-playbook.html"><div class="t">📖 Macro Playbook <span class="tag tg-macro">macro</span></div><div class="d">The 9 dials explained ELI5 + your position overlay &amp; flip-triggers.</div></a>
+    <a class="card macro" href="macro-regime-dashboard.html"><div class="t">🧭 Regime Dashboard <span class="tag tg-macro">macro</span></div><div class="d">Transmission, watchboard, divergence tell, catalyst calendar.</div></a>
+    <a class="card macro" href="gold-vs-real-yields.html"><div class="t">🪞 Real-Yield Mirror <span class="tag tg-macro">macro</span></div><div class="d">Gold vs. inverted real yields — the single most explanatory chart.</div></a>
+    <a class="card flow" href="cot-tracker.html"><div class="t">🕵️ COT Smart-Money <span class="tag tg-flow">flows</span></div><div class="d">Who's positioned (specs vs commercials vs retail) + contrarian gauge.</div></a>
+  </div>
+  <div class="note">📂 <b>Tip:</b> keep all these files in the <b>same folder</b> so these links open. They're all in the repo root — open this <code>cockpit.html</code> from there (or browse the repo) and everything is one click away.</div>
+</section>
+
+<!-- LIVE FEEDS -->
+<section>
+  <h2>Going fully live (optional)</h2>
+  <p style="font-size:13px;color:var(--muted)">Prices are already live (Stooq). To make the <b>macro &amp; flow</b> panels live too, wire these (free keys), each with a CORS-proxy fallback:</p>
+  <div class="note"><b>FRED</b> — real yields/2-yr (<code>DFII10</code>, <code>DGS2</code>): <code>api.stlouisfed.org/fred/series/observations?series_id=DFII10&amp;api_key=KEY&amp;file_type=json</code></div>
+  <div class="note"><b>Nasdaq Data Link (CFTC)</b> — COT positioning (<code>CFTC/088691_FO_ALL</code>): scaffolded in the COT tracker — drop your key there.</div>
+  <div class="note"><b>CME FedWatch / VIX</b> — no clean free API; check manually (FedWatch tool, ^VIX) or use a paid data vendor.</div>
+</section>
+
+<div class="disc"><strong>Disclaimer.</strong> Educational only — not investment/tax advice. Live prices via Stooq (CORS-proxy + snapshot fallback). Macro/flow figures are dated snapshots until you wire the feeds above. Consult a licensed advisor/CPA before acting.</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const SHARES=1100, BASIS=450;
+const SQ=s=>`https://stooq.com/q/l/?s=${s}&f=sd2t2ohlcv&h&e=csv`,PX=u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
+async function t(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return r.text();}
+async function one(s){try{const x=await t(SQ(s));const n=+x.trim().split('\n').pop().split(',')[6];if(!isFinite(n)||n<=0)throw 0;return n;}catch(e){try{const x=await t(PX(SQ(s)));const n=+x.trim().split('\n').pop().split(',')[6];return(isFinite(n)&&n>0)?n:null;}catch(_){return null;}}}
+const FB=[4012,370,62,56,101.7,68];
+const k=n=>(n<0?'−$':'$')+Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0});
+async function live(){const out=await Promise.all(['xauusd','gld.us','xagusd','slv.us','dx.f','cl.f'].map(one));const g=out.map((x,i)=>x??FB[i]);
+  $('s-gold').textContent='$'+g[0].toFixed(2);$('s-gld').textContent='$'+g[1].toFixed(2);$('s-slvr').textContent='$'+g[2].toFixed(2);$('s-slv').textContent='$'+g[3].toFixed(2);$('s-dxy').textContent=g[4].toFixed(2);$('s-oil').textContent='$'+g[5].toFixed(2);
+  const pnl=(g[1]-BASIS)*SHARES;$('pnl').textContent=k(pnl)+' (GLD)';$('pnl').className='big '+(pnl>=0?'bull':'bear');
+  $('pnl-d').textContent=`1,100 GLD @ $450 (now $${g[1].toFixed(0)}) · large SLV @ $75 · ~50%+ metals concentration.`;
+  const anyLive=out.some(x=>x!=null);$('live').className='live '+(anyLive?'ok':'err');$('lt').textContent=anyLive?('Live · '+new Date().toLocaleTimeString()):'offline — snapshot';}
+live();setInterval(live,60000);
+</script>
+</body>
+</html>
