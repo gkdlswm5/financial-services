@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sector Rotation & Cross-Asset Backtester</title>
+<style>
+  :root{--bg:#0d0f14;--panel:#161a23;--panel2:#1d222e;--line:#2a3140;--gold:#d4af37;--gold-bright:#ffd75e;--silver:#cfd6e4;--text:#e6e9ef;--muted:#8b93a4;--green:#3ecf8e;--red:#ff6b6b;--amber:#ffb454;--blue:#5b9dff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:24px;max-width:1080px;margin:0 auto}
+  header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+  h1{font-size:22px;font-weight:700}h1 .dot{color:var(--gold)}
+  .sub-h{color:var(--muted);font-size:13px;margin-top:4px}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin:0 0 12px;font-weight:600}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+  .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;align-items:end}
+  label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+  select,input{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;font-size:14px}
+  button{background:var(--gold);color:#0d0f14;border:none;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer}
+  button:hover{background:var(--gold-bright)}
+  .status{font-size:12px;color:var(--muted);margin-top:8px}
+  canvas{width:100%;height:auto;display:block;margin-top:8px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin-top:8px}.legend span{display:inline-flex;align-items:center;gap:6px}.sw{width:14px;height:3px;border-radius:2px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:11px}tr:last-child td{border-bottom:none}
+  .up{color:var(--green)}.down{color:var(--red)}.gold{color:var(--gold-bright)}.mut{color:var(--muted)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .chip{font-size:12px;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+  .chip.sel{border-color:var(--green);color:var(--green)}
+  .callout{background:var(--panel2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 14px;margin-top:10px;font-size:13px}
+  .warn{border-left-color:var(--amber)}
+  .disc{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:10px;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Sector Rotation &amp; Cross-Asset Backtester<span class="dot">.</span></h1>
+  <div class="sub-h">Real monthly data (Stooq) · momentum rotation across the 11 SPDR sectors vs. SPY · educational framework, not advice</div>
+</header>
+
+<section>
+  <h2>1 · Settings</h2>
+  <div class="ctrls">
+    <div><label>Lookback (months)</label><input type="number" id="lb" value="6"></div>
+    <div><label>Hold top N sectors</label><input type="number" id="topn" value="3"></div>
+    <div><label>Costs (bps / rebalance)</label><input type="number" id="cost" value="5"></div>
+    <div><label>Benchmark</label><select id="bench"><option value="spy.us">SPY</option><option value="vti.us">VTI</option><option value="xau">Gold (XAUUSD)</option></select></div>
+    <div><button onclick="run()">▶ Run rotation</button></div>
+  </div>
+  <div class="status" id="status">Ranks sectors each month by trailing return, holds the top N, rebalances monthly. Signals lagged (rank at month-end → hold next month) to avoid look-ahead.</div>
+  <div class="chips" id="universe"></div>
+</section>
+
+<section>
+  <h2>2 · Equity curve vs. benchmark</h2>
+  <canvas id="eq" width="1040" height="320"></canvas>
+  <div class="legend"><span><span class="sw" style="background:var(--gold-bright)"></span>Sector rotation</span><span><span class="sw" style="background:var(--silver)"></span>Benchmark</span></div>
+  <table id="metrics"><tr><th>Metric</th><th>Rotation</th><th>Benchmark</th></tr></table>
+  <div class="callout" id="hold">Run to see the currently-selected sectors.</div>
+  <div class="callout warn">⚠️ Overfitting: lookback &amp; N are knobs — a great backtest can fail live. Try several settings; trust robustness, not the single best curve. No taxes; costs are a simple turnover estimate.</div>
+</section>
+
+<div class="disc"><strong>Disclaimer.</strong> Educational framework, not advice. Monthly rebalance, equal-weight top-N, simplified turnover costs, signals lagged (no look-ahead). Data from Stooq (real). Past performance ≠ future results.</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const SECTORS=[['xlk.us','Tech'],['xlf.us','Financials'],['xle.us','Energy'],['xlv.us','Health'],['xly.us','Cons Disc'],['xlp.us','Cons Stpl'],['xlu.us','Utilities'],['xli.us','Industrials'],['xlb.us','Materials'],['xlre.us','Real Est'],['xlc.us','Comm Svcs']];
+$('universe').innerHTML=SECTORS.map(s=>`<span class="chip">${s[1]}</span>`).join('');
+const SQ=s=>`https://stooq.com/q/d/l/?s=${s}&i=d`,PX=u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
+async function t(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return r.text();}
+async function hist(s){let txt;try{txt=await t(SQ(s));}catch(e){txt=await t(PX(SQ(s)));}
+  const rows=txt.trim().split('\n').slice(1);const m=new Map();
+  rows.forEach(r=>{const c=r.split(',');const cl=+c[4];if(c[0]&&isFinite(cl)&&cl>0){m.set(c[0].slice(0,7),cl);}}); // yyyy-mm -> last close in month
+  return m;}
+
+function metrics(eq,rets){const last=eq[eq.length-1];const yrs=eq.length/12;const cagr=Math.pow(last,1/yrs)-1;
+  let peak=-1e9,mdd=0;eq.forEach(v=>{peak=Math.max(peak,v);mdd=Math.min(mdd,v/peak-1);});
+  const mean=rets.reduce((a,b)=>a+b,0)/(rets.length||1);const va=rets.reduce((a,b)=>a+(b-mean)**2,0)/(rets.length||1);
+  return{ret:last-1,cagr,mdd,sharpe:mean/(Math.sqrt(va)||1)*Math.sqrt(12)};}
+
+function draw(a,b){const cv=$('eq'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height,x0=54,x1=W-16,y0=16,y1=H-24;
+  const all=a.concat(b),lo=Math.min(...all),hi=Math.max(...all);
+  const X=i=>x0+i/(a.length-1)*(x1-x0),Y=v=>y1-(v-lo)/(hi-lo)*(y1-y0);
+  ctx.clearRect(0,0,W,H);ctx.font='11px sans-serif';
+  for(let f=0;f<=4;f++){const v=lo+(hi-lo)*f/4,yy=Y(v);ctx.strokeStyle='#1d222e';ctx.beginPath();ctx.moveTo(x0,yy);ctx.lineTo(x1,yy);ctx.stroke();ctx.fillStyle='#8b93a4';ctx.textAlign='right';ctx.fillText(v.toFixed(2)+'x',x0-6,yy+4);}
+  const ln=(eq,c,w)=>{ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();eq.forEach((v,i)=>{const yy=Y(v);i===0?ctx.moveTo(X(i),yy):ctx.lineTo(X(i),yy);});ctx.stroke();};
+  ln(b,'#cfd6e4',1.6);ln(a,'#ffd75e',2.4);}
+
+async function run(){
+  const L=Math.max(1,+$('lb').value||6),N=Math.max(1,+$('topn').value||3),cost=(+$('cost').value||0)/10000;
+  $('status').textContent='Fetching '+(SECTORS.length+1)+' price histories…';
+  try{
+    const benchSym=$('bench').value==='xau'?'xauusd':$('bench').value;
+    const maps=await Promise.all(SECTORS.map(s=>hist(s[0])));
+    const benchMap=await hist(benchSym);
+    // common months across all sectors
+    let months=null;maps.forEach(m=>{const ks=[...m.keys()];months=months?months.filter(x=>m.has(x)):ks;});
+    months=months.filter(x=>benchMap.has(x)).sort();
+    if(months.length<L+4){$('status').textContent='Not enough overlapping history.';return;}
+    const eq=[1],rets=[],beq=[1],brets=[];let prevSel=[];
+    for(let i=L;i<months.length-1;i++){
+      const m=months[i],mPrev=months[i-L],mNext=months[i+1];
+      const ranked=SECTORS.map((s,j)=>[j,maps[j].get(m)/maps[j].get(mPrev)-1]).sort((a,b)=>b[1]-a[1]);
+      const sel=ranked.slice(0,N).map(r=>r[0]);
+      let pr=0;sel.forEach(j=>pr+=(maps[j].get(mNext)/maps[j].get(m)-1));pr/=N;
+      const turnover=sel.filter(j=>!prevSel.includes(j)).length/N;pr-=2*cost*turnover;prevSel=sel;
+      rets.push(pr);eq.push(eq[eq.length-1]*(1+pr));
+      const br=benchMap.get(mNext)/benchMap.get(m)-1;brets.push(br);beq.push(beq[beq.length-1]*(1+br));
+      if(i===months.length-2)var lastSel=sel;
+    }
+    draw(eq,beq);
+    const mS=metrics(eq,rets),mB=metrics(beq,brets);
+    const pct=v=>(v>=0?'+':'')+(v*100).toFixed(1)+'%';
+    $('metrics').innerHTML='<tr><th>Metric</th><th>Rotation</th><th>Benchmark</th></tr>'+
+     `<tr><td>Total return</td><td class="${mS.ret>=mB.ret?'up':'down'}">${pct(mS.ret)}</td><td>${pct(mB.ret)}</td></tr>`+
+     `<tr><td>CAGR</td><td>${pct(mS.cagr)}</td><td>${pct(mB.cagr)}</td></tr>`+
+     `<tr><td>Max drawdown</td><td>${pct(mS.mdd)}</td><td>${pct(mB.mdd)}</td></tr>`+
+     `<tr><td>Sharpe (ann.)</td><td>${mS.sharpe.toFixed(2)}</td><td>${mB.sharpe.toFixed(2)}</td></tr>`;
+    const names=(lastSel||[]).map(j=>SECTORS[j][1]).join(', ');
+    const beat=mS.sharpe>mB.sharpe;
+    $('hold').innerHTML=`<b>Currently selected (most recent month):</b> ${names||'—'}.<br>Over ${(eq.length/12).toFixed(1)} yrs the rotation ${beat?'<b class="up">beat</b>':'<b class="down">did NOT beat</b>'} ${benchSym.toUpperCase()} on Sharpe (${mS.sharpe.toFixed(2)} vs ${mB.sharpe.toFixed(2)}).`;
+    $('status').textContent=`Done · ${months.length} months (${months[0]} → ${months[months.length-1]}).`;
+  }catch(e){$('status').textContent='⚠ Fetch/parse failed (CORS or symbol). Retry.';}
+}
+</script>
+</body>
+</html>
