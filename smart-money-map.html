@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Money Map — ELI5 Tutor</title>
+<style>
+  :root{--bg:#0d0f14;--panel:#161a23;--panel2:#1d222e;--line:#2a3140;--gold:#d4af37;--gold-bright:#ffd75e;--silver:#cfd6e4;--text:#e6e9ef;--muted:#8b93a4;--green:#3ecf8e;--red:#ff6b6b;--amber:#ffb454;--blue:#5b9dff;--purple:#b78cff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding:24px;max-width:980px;margin:0 auto}
+  header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+  h1{font-size:23px;font-weight:700}h1 .dot{color:var(--gold)}
+  .sub-h{color:var(--muted);font-size:13px;margin-top:4px}
+  .strip{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin-top:8px;color:var(--muted)}.strip b{color:var(--gold-bright);font-variant-numeric:tabular-nums}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin:0 0 12px;font-weight:600}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
+  /* tutor */
+  .progress{display:flex;gap:6px;margin-bottom:14px}
+  .pdot{flex:1;height:6px;border-radius:3px;background:var(--panel2)}.pdot.on{background:var(--gold)}
+  .lesson{display:none}.lesson.active{display:block}
+  .eli5{background:var(--panel2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:14px;margin:10px 0;font-size:15px}
+  .eli5 .tag{display:inline-block;font-size:11px;font-weight:700;color:var(--gold-bright);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .lesson h3{font-size:17px;margin:4px 0 8px}
+  .key{font-size:13px;color:var(--muted);margin-top:8px}.key b{color:var(--silver)}
+  .nav{display:flex;justify-content:space-between;margin-top:16px}
+  button{background:var(--gold);color:#0d0f14;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  button:hover{background:var(--gold-bright)}button.sec{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+  button:disabled{opacity:.4;cursor:default}
+  /* matrix */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:11px}
+  tr:last-child td{border-bottom:none}
+  .smart{color:var(--green);font-weight:700}.react{color:var(--red);font-weight:700}.struct{color:var(--gold-bright);font-weight:700}
+  /* gauge */
+  .dials{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.dials{grid-template-columns:1fr}}
+  .dial{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+  .dial .nm{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .bar{height:22px;border-radius:6px;background:linear-gradient(90deg,#3ecf8e,#1d222e,#ff6b6b);position:relative;margin:10px 0 4px}
+  .bar .needle{position:absolute;top:-4px;width:3px;height:30px;background:#fff;border-radius:2px}
+  .bar .lab{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:26px}
+  .signal{text-align:center;padding:12px;border-radius:10px;margin-top:14px;font-weight:700;font-size:15px}
+  .signal.off{background:var(--panel2);color:var(--muted)}.signal.on{background:rgba(62,207,142,.15);color:var(--green)}
+  /* quiz */
+  .q{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
+  .q .qt{font-weight:600;font-size:14px}
+  .opts{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+  .opt{padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:13px}
+  .opt:hover{border-color:var(--gold)}.opt.right{border-color:var(--green);background:rgba(62,207,142,.12)}.opt.wrong{border-color:var(--red);background:rgba(255,107,107,.12)}
+  .ans{font-size:12px;color:var(--muted);margin-top:8px;display:none}.ans.show{display:block}
+  .mut{color:var(--muted)}
+  .disc{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:10px;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Smart Money Map<span class="dot">.</span> <span style="font-size:12px;color:var(--muted)">ELI5 tutor — who's really moving gold</span></h1>
+  <div class="sub-h">Interactive lesson · <span id="live" style="color:var(--green)">●</span> <span id="lt" class="mut">live prices</span></div>
+  <div class="strip">Gold <b id="s-gold">—</b> · GLD <b id="s-gld">—</b> · Silver <b id="s-slvr">—</b> · SLV <b id="s-slv">—</b></div>
+</header>
+
+<!-- TUTOR -->
+<section>
+  <h2>Tutor — 5 quick lessons</h2>
+  <div class="progress" id="prog"></div>
+
+  <div class="lesson active">
+    <div class="eli5"><span class="tag">ELI5</span>Imagine two people before a rainstorm. The <b>farmer</b> sees the dark clouds and plants early — that's <b>smart money</b>. The other guy only buys an umbrella <b>after</b> he's soaked — that's <b>dumb money</b>.</div>
+    <h3>1 · "Smart" means early, not clever</h3>
+    <p>Smart money = <b>predictive</b> (acts before the move). Dumb money = <b>reactive</b> (acts after the news). It has <em>nothing</em> to do with IQ — a brilliant person who buys late is still "dumb money."</p>
+    <div class="key"><b>Spot it:</b> who's buying into weakness/calm (smart) vs chasing strength/headlines (dumb)?</div>
+  </div>
+
+  <div class="lesson">
+    <div class="eli5"><span class="tag">ELI5</span>The gold market is a town. <b>Miners &amp; jewelers</b> (commercials) know the real crop. The <b>town treasury</b> (central banks) buys steadily, forever. The <b>bandwagon fans</b> (hedge funds) cheer when gold's hot and flee when it's cold. The <b>neighbors</b> (retail) buy because someone else did.</div>
+    <h3>2 · The four players</h3>
+    <table>
+      <tr><th>Player</th><th>Who</th><th>Type</th></tr>
+      <tr><td><span class="smart">Commercials</span></td><td>miners, refiners, swap dealers</td><td class="smart">SMART (hedgers)</td></tr>
+      <tr><td><span class="struct">Central banks</span></td><td>China, Poland, India…</td><td class="struct">STRUCTURAL (the floor)</td></tr>
+      <tr><td><span class="react">Managed money</span></td><td>hedge funds, CTAs</td><td class="react">REACTIVE (the crowd)</td></tr>
+      <tr><td><span class="react">Retail</span></td><td>individuals (bar/coin)</td><td class="react">REACTIVE (the tail)</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson">
+    <div class="eli5"><span class="tag">ELI5</span>"Wall Street" is the whole stadium — it has the <b>coaches who read the game</b> (smart) <b>and</b> the <b>fair-weather fans</b> (reactive). So "Wall Street is buying" tells you almost nothing by itself.</div>
+    <h3>3 · "Wall Street" ≠ "smart money"</h3>
+    <p>The hedge funds people <em>call</em> "Wall Street smart money" are usually <b>managed money</b> — trend-followers who crowd into tops and bottoms. That's why you read them <b>contrarian</b>: when they're all-in long, the move is often <em>over</em>.</p>
+    <div class="key"><b>Spot it:</b> extreme hedge-fund longs = late-stage rally (fade it); washed-out hedge funds = selling exhausted (constructive).</div>
+  </div>
+
+  <div class="lesson">
+    <div class="eli5"><span class="tag">ELI5</span>Every Friday the referee publishes a <b>scoreboard</b> showing how many chips each group is betting and which way — that's the COT report.</div>
+    <h3>4 · How you track them</h3>
+    <ul style="margin-left:18px">
+      <li><b>COT report</b> (CFTC, Fri 3:30pm ET) → commercials vs managed money positions.</li>
+      <li><b>Bar/coin demand &amp; ETF flows</b> (World Gold Council) → retail vs institutional.</li>
+      <li><b>WGC / IMF reserves</b> → central banks.</li>
+      <li><b>COT Index</b> = today's position as a percentile of the last few years — turns it into an "extreme-o-meter."</li>
+    </ul>
+  </div>
+
+  <div class="lesson">
+    <div class="eli5"><span class="tag">ELI5</span>The rare magic moment: the <b>farmers bet one way</b> and the <b>bandwagon bets the opposite — both to the max</b>. History says the farmers usually win. That's the "holy grail."</div>
+    <h3>5 · The "Holy Grail" — &amp; what return to expect</h3>
+    <p>The best setup: commercials and managed money at <b>opposite extremes</b> at once — it's preceded some of gold's biggest reversals. But be honest about the payoff:</p>
+    <div class="key"><b>The edge is real but modest &amp; rare.</b> Backtests (Briese 2008) show a positive but market-dependent edge; academic results are <b>mixed</b>. It's a <b>timing/context overlay</b>, not a money printer — and after costs the day-to-day edge is marginal. The <em>reliable</em> "smart money" in gold is the <b>central-bank floor</b> (risk support), not a high-return trade.</div>
+  </div>
+
+  <div class="nav"><button class="sec" id="prev" onclick="step(-1)">← Back</button><button id="next" onclick="step(1)">Next →</button></div>
+</section>
+
+<!-- HOLY GRAIL GAUGE -->
+<section>
+  <h2>Live "Holy Grail" divergence gauge</h2>
+  <div class="dials">
+    <div class="dial"><div class="nm">Commercials (smart)</div>
+      <div class="bar"><div class="needle" id="n-comm" style="left:42%"></div><div class="lab"><span>max short</span><span>max long</span></div></div>
+      <div class="mut" style="font-size:12px">Lightly short (hedging) — not extreme</div></div>
+    <div class="dial"><div class="nm">Managed money (crowd)</div>
+      <div class="bar"><div class="needle" id="n-mm" style="left:38%"></div><div class="lab"><span>washed out</span><span>euphoric</span></div></div>
+      <div class="mut" style="font-size:12px">Washed out after the selloff — mildly constructive</div></div>
+  </div>
+  <div class="signal off" id="grail">○ No "holy grail" signal right now — neither side is at an extreme. (Watch for opposite extremes.)</div>
+  <p class="mut" style="font-size:12px;margin-top:8px">Snapshot from latest COT; wire live CFTC data (see the COT tracker's scaffold) to make the needles update automatically.</p>
+</section>
+
+<!-- QUIZ -->
+<section>
+  <h2>Check yourself</h2>
+  <div id="quiz"></div>
+</section>
+
+<div class="disc"><strong>Disclaimer.</strong> Educational only — not investment advice. Positioning is a contrarian/context tool with a modest, noisy edge, not a reliable return strategy. Live prices via Stooq.</div>
+
+<script>
+const $=id=>document.getElementById(id);
+// tutor nav
+let cur=0;const lessons=document.querySelectorAll('.lesson');
+function render(){lessons.forEach((l,i)=>l.classList.toggle('active',i===cur));
+  $('prog').innerHTML=Array.from(lessons).map((_,i)=>`<div class="pdot ${i<=cur?'on':''}"></div>`).join('');
+  $('prev').disabled=cur===0;$('next').textContent=cur===lessons.length-1?'Done ✓':'Next →';}
+function step(d){cur=Math.max(0,Math.min(lessons.length-1,cur+d));render();}
+render();
+
+// quiz
+const QZ=[
+ {q:'Who is usually the "smart money" in gold?',o:['Hedge funds (managed money)','Commercials & central banks','Retail bar & coin buyers'],a:1,e:'Commercials (hedgers) and central banks are predictive/structural. Hedge funds are the reactive crowd.'},
+ {q:'Hedge funds are at an EXTREME net-long. That is…',o:['Bullish — follow them','Bearish — contrarian, the move is likely late'],a:1,e:'Managed money is trend-following; extreme longs often mark late-stage rallies.'},
+ {q:'How often does the "holy grail" (opposite extremes) appear?',o:['Most weeks','Rarely','Never'],a:1,e:'It is rare — that is why it carries more signal when it shows up.'},
+ {q:'What return should you expect from following COT?',o:['Reliable high returns','A modest, noisy, extremes-only edge'],a:1,e:'The edge is real but modest and mixed in studies — a context overlay, not a money printer.'},
+];
+$('quiz').innerHTML=QZ.map((q,i)=>`<div class="q"><div class="qt">${i+1}. ${q.q}</div><div class="opts">${q.o.map((o,j)=>`<div class="opt" onclick="pick(${i},${j})">${o}</div>`).join('')}</div><div class="ans" id="ans${i}">✔ ${q.e}</div></div>`).join('');
+function pick(i,j){const q=QZ[i];const opts=document.querySelectorAll('#quiz .q')[i].querySelectorAll('.opt');
+  opts.forEach((o,k)=>{o.classList.remove('right','wrong');if(k===q.a)o.classList.add('right');if(k===j&&j!==q.a)o.classList.add('wrong');});
+  $('ans'+i).classList.add('show');}
+
+// live strip
+const SQ=s=>`https://stooq.com/q/l/?s=${s}&f=sd2t2ohlcv&h&e=csv`,PX=u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
+async function t(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return r.text();}
+async function one(s){try{const x=await t(SQ(s));const n=+x.trim().split('\n').pop().split(',')[6];if(!isFinite(n)||n<=0)throw 0;return n;}catch(e){try{const x=await t(PX(SQ(s)));const n=+x.trim().split('\n').pop().split(',')[6];return(isFinite(n)&&n>0)?n:null;}catch(_){return null;}}}
+const FB=[4012,370,62,56];
+async function live(){const out=await Promise.all(['xauusd','gld.us','xagusd','slv.us'].map(one));const g=out.map((x,i)=>x??FB[i]);
+  $('s-gold').textContent='$'+g[0].toFixed(2);$('s-gld').textContent='$'+g[1].toFixed(2);$('s-slvr').textContent='$'+g[2].toFixed(2);$('s-slv').textContent='$'+g[3].toFixed(2);
+  const anyLive=out.some(x=>x!=null);$('live').style.color=anyLive?'var(--green)':'var(--red)';$('lt').textContent=anyLive?('live · '+new Date().toLocaleTimeString()):'offline — snapshot';}
+live();setInterval(live,60000);
+</script>
+</body>
+</html>
