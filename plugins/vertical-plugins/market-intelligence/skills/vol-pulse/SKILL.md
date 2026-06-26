@@ -89,7 +89,9 @@ State this linkage explicitly in the output.
 vol on SPY/QQQ/IWM proxies, spot VIX) using `FMP_API_KEY` from the environment; it prints
 the IV-derived cells as `[needs IBKR]` and VIX9D/VVIX + put/call as `[needs source]`.
 Run `python3 scripts/fetch_fmp.py` (add `--json` for raw data). The IBKR adapter (local
-gateway) fills the `[needs IBKR]` cells when available.
+gateway) fills the `[needs IBKR]` cells when available. `scripts/fetch_cboe.py` fills the
+VIX term structure + put/call from CBOE's free CDN — `[blocked]` in-session, but it runs in
+GitHub Actions / locally (see `../../dashboard/`).
 
 ## Pushback baked in (don't lead with noise)
 

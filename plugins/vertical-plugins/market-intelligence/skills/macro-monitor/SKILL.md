@@ -41,6 +41,12 @@ then render them `[blocked: FRED]` / `[blocked: CBOE]` — never fabricate.
 indicators), reading `FMP_API_KEY` from the environment (never printed). Run
 `python3 scripts/fetch_macro.py --calendar-days 7` (add `--json` for raw data).
 
+Companion adapters: `scripts/fetch_cftc.py` (CFTC positioning, FMP — live) and
+`scripts/fetch_fred.py` (credit spreads / leading indicators / jobless claims — runs from
+GitHub Actions or local, `[blocked]` in-session). The hosted, always-on version of all of
+this is `../../dashboard/` (GitHub Pages via `.github/workflows/market-dashboard.yml`),
+which also unblocks FRED/CBOE because Actions isn't behind the sandbox egress policy.
+
 ## Commentary rules (institutional framing)
 
 - **Curve:** inverted 3m10y → market pricing growth risk / future cuts; steepening from
