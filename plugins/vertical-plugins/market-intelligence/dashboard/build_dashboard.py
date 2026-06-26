@@ -95,6 +95,9 @@ def render_html(d, alerts):
                    for c in (d.get("cftc", []) or [])[:8])
     fred = "".join(_row([k, (v.get("value") if isinstance(v, dict) and "value" in v else "[blocked: FRED]")])
                    for k, v in (d.get("fred", {}) or {}).items())
+    cb = (d.get("cboe", {}) or {}).get("vix_term", {})
+    cboe_rows = "".join(_row([k, v]) for k, v in cb.items() if isinstance(v, (int, float)))
+    cboe_tilt = (d.get("cboe", {}) or {}).get("tilt", "")
 
     return f"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -117,7 +120,8 @@ def render_html(d, alerts):
  <div class="card"><h2>Treasury Curve</h2><table>{curve}</table>
    <p class="spread">2s10s {sp.get('2s10s','?')} · 3m10y {sp.get('3m10y','?')}</p></div>
  <div class="card"><h2>VIX</h2><p class="spread">{d.get('vix','[n/a]')}</p>
-   <p class="blocked">VIX term structure / put-call via CBOE (run in Actions/local)</p></div>
+   {f'<table>{cboe_rows}</table><p class="as-of">term structure: {html.escape(cboe_tilt)}</p>' if cboe_rows
+     else '<p class="blocked">VIX term structure / put-call via CBOE — [blocked here; fills on local/Actions run]</p>'}</div>
  <div class="card"><h2>Big Macro Events (7d)</h2><table>{cal or _row(['(none)'])}</table></div>
  <div class="card"><h2>Top Gainers</h2><table>{gainers}</table></div>
  <div class="card"><h2>Top Losers</h2><table>{losers}</table></div>
