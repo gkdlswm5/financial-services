@@ -17,14 +17,20 @@ and a **local IBKR gateway** for the true options layer (IV surface, volume, Gre
 
 | Need | Source (this stack) | Status |
 |---|---|---|
-| Top movers / most active | FMP `/stock_market/{actives,gainers,losers}` | ✅ FMP (premium) |
-| Prices → realized vol (20/60/90d) | FMP `/historical-price-full` | ✅ FMP |
-| VIX / index quotes | FMP `/quote/%5EVIX`, `%5EVIX9D`, `%5EVVIX` | ✅ FMP |
+| Top movers / most active | FMP `/stable/{most-actives,biggest-gainers,biggest-losers}` | ✅ FMP |
+| Prices → realized vol (20/60/90d) | FMP `/stable/historical-price-eod/full?symbol=` | ✅ FMP |
+| VIX spot | FMP `/stable/quote?symbol=^VIX` | ✅ FMP |
+| VIX9D / VVIX / VIX3M (term structure) | CBOE free, or IBKR | ⚠️ **not on FMP** |
 | Index & equity **put/call ratio** | CBOE daily file (public) | ✅ free |
 | Option **IV surface / IV rank / skew / term structure** | IBKR (TWS/Gateway, **local**) | ⚠️ local power-up |
 | Option **volume / open interest / Greeks** | IBKR (TWS/Gateway, **local**) | ⚠️ local power-up |
 
-**Why two tiers:** FMP is a clean cloud API (key in `.env`), so the movers + RV + VIX +
+**FMP API note:** use the current **`/stable/`** endpoints (the old `/api/v3/` paths are
+deprecated/legacy and return 403). FMP serves spot `^VIX` but NOT the VIX term-structure
+sub-indices (`^VIX9D`, `^VVIX`, `^VIX3M`) — source those from the CBOE free files or IBKR,
+else render `[needs source]`.
+
+**Why two tiers:** FMP is a clean cloud API (key in env), so the movers + RV + VIX +
 put/call layer renders anywhere — including a fresh session. IBKR gives real OPRA-derived
 options data (IV, volume, Greeks) but needs **TWS or IB Gateway running on your own
 machine**; it does NOT run in the ephemeral cloud sandbox.
@@ -70,7 +76,8 @@ State this linkage explicitly in the output.
 
 1. **Movers (FMP):** pull most-active / gainers / losers; compute relative volume vs 20d avg.
 2. **Realized vol (FMP):** from `/historical-price-full`, compute RV over 20/60/90d.
-3. **VIX complex (FMP):** quote VIX, VIX9D, VVIX; derive the term-structure tilt.
+3. **VIX (FMP):** quote `^VIX` via `/stable/quote`. VIX9D/VVIX/VIX3M are NOT on FMP —
+   pull from the CBOE free files or IBKR, else render `[needs source]`.
 4. **Put/call (CBOE free):** index and equity ratios → fear/greed gauge.
 5. **Options layer (IBKR, local):** if the gateway is connected, pull the IV surface for
    SPX/NDX/RUT (ATM term structure, 25Δ risk reversal), IV history → **IV rank/percentile**,
