@@ -1,0 +1,8 @@
+{
+  "name": "market-intelligence",
+  "version": "0.1.0",
+  "description": "Micro/macro event deep dives with a Buffett signal-vs-noise lens and crowd-sentiment visualization, plus an options/volatility pulse (IV rank, term structure, skew, vol risk premium) on the major indexes and top movers.",
+  "author": {
+    "name": "gkdlswm5"
+  }
+}

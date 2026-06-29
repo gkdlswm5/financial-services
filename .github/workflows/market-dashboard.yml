@@ -1,0 +1,70 @@
+name: Market Intelligence Dashboard
+
+# Builds the static market dashboard and publishes it to GitHub Pages on a schedule.
+# Running here (GitHub-hosted runner) ALSO reaches FRED and CBOE, which are egress-blocked
+# in the Claude cloud sandbox — so credit spreads, leading indicators, and the VIX term
+# structure populate here even though they show [blocked] in-session.
+#
+# Setup (one-time, manual):
+#   1. Settings -> Secrets and variables -> Actions -> add secret  FMP_API_KEY
+#   2. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+
+on:
+  schedule:
+    - cron: "0 13 * * 1-5"   # 13:00 UTC (~9am ET), weekdays
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: market-dashboard
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build dashboard
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: |
+          python3 plugins/vertical-plugins/market-intelligence/dashboard/build_dashboard.py --out dist
+      - name: Surface alerts (job summary + issue on critical)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open("dist/data.json"))
+          al = d.get("alerts", [])
+          print("## Market alerts")
+          print("\n".join(f"- **{a['level']}** {a['msg']}" for a in al) or "_none_")
+          crit = [a["msg"] for a in al if a["level"] == "critical"]
+          open("/tmp/crit.txt", "w").write("\n".join(crit))
+          PY
+          if [ -s /tmp/crit.txt ]; then
+            gh issue create --title "🚨 Market alert: $(date +%F)" \
+              --body "$(cat /tmp/crit.txt)" --label "market-alert" || true
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
