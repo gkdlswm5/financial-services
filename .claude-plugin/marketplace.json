@@ -23,9 +23,9 @@
       "description": "Equity research tools: earnings analysis, initiating coverage reports, and research workflows"
     },
     {
-      "name": "market-intelligence",
-      "displayName": "Market Intelligence",
-      "source": "./plugins/vertical-plugins/market-intelligence",
+      "name": "stonks",
+      "displayName": "Stonks",
+      "source": "./plugins/vertical-plugins/stonks",
       "description": "Micro/macro event deep dives with a Buffett signal-vs-noise lens and crowd-sentiment visualization, plus an options/volatility pulse on the major indexes and top movers"
     },
     {

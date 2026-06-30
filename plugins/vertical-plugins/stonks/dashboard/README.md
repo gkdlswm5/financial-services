@@ -43,7 +43,7 @@ alerts also open a GitHub issue.
 
 ```bash
 export FMP_API_KEY=...   # from your .env
-python3 plugins/vertical-plugins/market-intelligence/dashboard/build_dashboard.py --out dist
+python3 plugins/vertical-plugins/stonks/dashboard/build_dashboard.py --out dist
 open dist/index.html
 ```
 

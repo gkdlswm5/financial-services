@@ -92,7 +92,7 @@ is a direct input. Be honest about thin/crowded edges — H2 (drift) is sturdier
 
 ## Pairs with `vol-pulse`
 
-Run the `vol-pulse` skill alongside this one (or via `/market-intelligence:market-pulse`) to
+Run the `vol-pulse` skill alongside this one (or via `/stonks:market-pulse`) to
 overlay the volatility regime on the sentiment-vs-fundamentals 2×2:
 - **Cheap & calm vol** + a crowd-bullish event → the `MOMENTUM-CROWDED` corner is more
   dangerous, and protection is cheap to own.

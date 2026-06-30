@@ -7,7 +7,7 @@ description: Point-in-time options/volatility "pulse" on the major indexes and t
 
 A scheduled, point-in-time read on volatility and options positioning — NOT a live tick
 terminal (this environment is ephemeral and the data feeds are snapshot/delayed). Run it
-daily (e.g. via `/market-intelligence:vol-pulse` on a `/loop`) and tie the vol regime back
+daily (e.g. via `/stonks:vol-pulse` on a `/loop`) and tie the vol regime back
 to the event picture from the `event-deep-dive` skill.
 
 ## Data reality (read first — be honest in the output)

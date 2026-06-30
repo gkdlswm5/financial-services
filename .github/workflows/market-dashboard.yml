@@ -36,7 +36,7 @@ jobs:
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
-          python3 plugins/vertical-plugins/market-intelligence/dashboard/build_dashboard.py --out dist
+          python3 plugins/vertical-plugins/stonks/dashboard/build_dashboard.py --out dist
       - name: Surface alerts (job summary + issue on critical)
         if: always()
         env:

@@ -18,4 +18,4 @@ gold and SLV with silver.
 
 If a scope is provided, use it; otherwise default to broad US equities + the macro spine.
 
-Tip: schedule with `/loop 1h /market-intelligence:market-pulse`.
+Tip: schedule with `/loop 1h /stonks:market-pulse`.

@@ -14,4 +14,4 @@ figure. Pair GLD with gold and SLV with silver.
 
 If indexes/tickers are provided, use them; otherwise default to SPX, NDX, RUT.
 
-Tip: schedule it with `/loop 30m /market-intelligence:vol-pulse` for a recurring read.
+Tip: schedule it with `/loop 30m /stonks:vol-pulse` for a recurring read.
